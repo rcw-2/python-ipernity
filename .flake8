@@ -1,0 +1,38 @@
+[flake8]
+
+# Allow for slightly larger lines
+max-line-length = 90
+
+# Complex functions get 'noqa'
+max-complexity = 15
+
+# Exclude files from check
+exclude =
+    # Standard stuff
+    .git, __pycache__, docs/conf.py, build, dist, Simple-Ipernity-API.egg-info,
+    # Local Sphinx extensions
+    _ext,
+    # Experimental stuff
+    experiments
+
+# Ignore list
+extend-ignore =
+    # Ignored for alignment
+    # * multiple spaces before '='
+    # * multiple spaces after ':'
+    # * unexpected spaces around keyword / parameter equals
+    E221, E241, E251,
+    # Other formatting
+    E201, E202,
+    # blank line contains whitespace - OK when surrounding lines are indented
+    W293,
+    # blank line at end of file - oh shut up!
+    W391,
+    #
+    # The following are ignored for development:
+    E302, E303, E713, F401, W291
+
+# Ignores for tests
+per-file-ignores =
+    tests/*:F403,F405
+

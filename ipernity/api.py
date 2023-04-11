@@ -1,0 +1,299 @@
+"""
+Python Ipernity API
+"""
+
+import json
+import os
+from logging import getLogger
+from time import sleep
+from typing import Any, Dict, Iterable, Mapping, Optional, Union
+
+import requests
+
+from .auth import AuthHandler, DesktopAuthHandler
+from .method import IpernityMethod
+from .exceptions import IpernityError
+
+
+api_arg = Union[str, float]
+
+log = getLogger(__name__)
+
+methodsfile = os.path.join(
+    os.path.dirname(__file__),
+    'methods.json'
+)
+with open(methodsfile, 'r') as mf:
+    _methods = json.load(mf)
+
+
+class IpernityAPI:
+    """
+    Encapsulates Ipernity functionality.
+    
+    Args:
+        api_key:    The API key obtained from Ipernity.
+        api_secret: The secret belonging to the API key.
+        token:      API token. Can be given as a string or as ``dict``. When
+                    given as a dict, the actual token is extracted as
+                    ``token['token']``.
+        auth:       Authentication methop, for now only ``desktop`` is supported.
+        url:        API URL, should normally be left alone.
+    
+    .. seealso::
+        * `Ipernity API methods <http://www.ipernity.com/help/api>`_
+    """
+    
+    # Methods data retrieved from http://api.ipernity.com/api/api.methods.getList/json
+    __methods__ = _methods
+    
+    def __init__(
+        self,
+        api_key: str,
+        api_secret: str,
+        token: Union[str, Dict, None] = None,
+        auth: str = 'desktop',
+        url: str = 'http://api.ipernity.com/api/',
+    ):
+        log.debug('Creating API object with key %s', api_key)
+        self._api_key = api_key
+        self._api_secret = api_secret
+        self.token = token
+        self._url = url
+        if auth == 'desktop':
+            self._auth = DesktopAuthHandler(self)
+        else:
+            raise ValueError(f'Authentication method {auth} is not supported')
+    
+    def __getattr__(self, name: str) -> IpernityMethod:
+        """Returns an IpernityMethod object for the given method"""
+        if name.startswith('_'):
+            raise AttributeError(f'Attribute {name} not found')
+        
+        return IpernityMethod(self, name)
+    
+    @property
+    def auth(self) -> AuthHandler:
+        """The authentication handler"""
+        return self._auth
+    
+    @property
+    def token(self) -> str:
+        """
+        The authentication token
+        
+        When setting, the new value can be given as a string or as ``dict``.
+        If given as a dict, the actual token is extracted as ``token['token']``.
+        """
+        return self._token
+    
+    @token.setter
+    def token(self, value: Union[str, Dict, None]):
+        if isinstance(value, dict):
+            self._token = value['token']
+            if 'user' in value:
+                self._user = value['user']
+            else:
+                self._user = None
+        else:
+            self._token = value
+            self._user = None
+    
+    @property
+    def user_info(self) -> dict:
+        """Information about the current user"""
+        if self._user:
+            return self._user
+        auth = self.auth.checkToken(self.token)['auth']
+        self._user = auth['user']
+        return self._user
+    
+    def call(self, method_name: str, **kwargs: api_arg) -> Mapping:
+        """
+        Makes an API call.
+        
+        Args:
+            method_name:    API method to call
+            kwargs:         API arguments
+        
+        Raises:
+            HTTPError:      HTTP access failed.
+            IpernityError:  API returned an error.
+        """
+        if method_name not in self.__methods__:
+            raise IpernityError(message = f'Unknown method {method_name}')
+        
+        url = self._url + method_name + '/json'
+        data = self.auth._sign_request(method_name, **kwargs)
+        log.debug(f'Calling {url} with {data}')
+        
+        if int(self.__methods__[method_name]['authentication'].get('post', "0")):
+            if 'file' in data:
+                with open(data['file'], 'rb') as f:
+                    del data['file']
+                    response = requests.post(
+                        url,
+                        data = data,
+                        files = {'file': f}
+                    )
+            else:
+                response = requests.post(url, data = data)
+        else:
+            response = requests.get(url, params = data)
+        response.raise_for_status()
+        
+        result = response.json()
+        if result['api']['status'] != 'ok':
+            log.error(
+                '%s returned %s %s: %s',
+                method_name,
+                result['api']['status'],
+                result['api']['code'],
+                result['api']['message']
+            )
+            raise IpernityError(
+                result['api']['status'],
+                result['api']['code'],
+                result['api']['message']
+                + f', method: {method_name}, params: {data}'
+            )
+        
+        log.debug(f'Returning {result}')
+        return result
+    
+    def upload_file(self, filename: str, **kwargs: api_arg) -> int:
+        """
+        Simplified interface to uploading a file
+        
+        Args:
+            filename:   The file to be uploaded. Can be relative or absolute.
+            kwargs:     Additional attributes for :iper:`upload.file`.
+            
+        Returns:
+            The ``doc_id`` of the uploaded file.
+        """                                                 # noqa: E501
+        ticket = self.upload.file(file=filename, **kwargs)['ticket']
+        done = False
+        while not done:
+            status = self.upload.checkTickets(tickets = ticket)['tickets']['ticket'][0]
+            if status['id'] != ticket:
+                raise IpernityError(
+                    message = 'Bad id {}, expecting {}'.format(status['id'], ticket)
+                )
+            if int(status.get('invalid', '0')):
+                raise IpernityError(message = f'Ticket {ticket} invalid')
+            done = int(status.get('done', '0'))
+            if done:
+                id_ = status['doc_id']
+            else:
+                sleep(int(status['eta']))
+        
+        return id_
+                
+    def _replace_file(self, filename: str, **kwargs: api_arg) -> int:
+        """
+        Simplified interface to uploading a file
+        
+        Does not work, so it is hidden.
+        """
+        ticket = self.upload.replace(file=filename, **kwargs)['ticket']
+        done = False
+        while not done:
+            status = self.upload.checkTickets(tickets = ticket)['tickets']['ticket'][0]
+            if status['id'] != ticket:
+                raise IpernityError(
+                    message = 'Bad id {}, expecting {}'.format(status['id'], ticket)
+                )
+            if int(status.get('invalid', '0')):
+                raise IpernityError(message = f'Ticket {ticket} invalid')
+            done = int(status.get('done', '0'))
+            if done:
+                id_ = status['doc_id']
+            else:
+                sleep(int(status['eta']))
+        
+        return id_
+    
+    def walk_data(
+        self,
+        method_name: str,
+        elem_name: Optional[str] = None,
+        **kwargs: api_arg
+    ) -> Iterable[Dict]:
+        """
+        Iterates over an arbitrary API search.
+        
+        This 
+        
+        Args:
+            method_name:    Search method to call. The method must accept
+                            the ``page`` argument.
+            elem_name:      Name of list elements.
+            kwargs:         Argument for the search method. Use ``per_page``
+                            to set the number of returned elements per method
+                            call.
+        Yields:
+            ``dict`` containing the element data.
+        """
+        if elem_name is None:
+            # Guess element name if not given.
+            mparts = method_name.split('.')
+            if len(mparts) == 2:
+                elem_name = mparts[0]
+                list_name = [elem_name + 's']
+            else:
+                list_name = mparts[0:-1]
+                elem_name = mparts[-2][:-1]
+        else:
+            if '.' in elem_name:
+                mparts = elem_name.split('.')
+                list_name = mparts[:-1]
+                elem_name = mparts[-1]
+            else:
+                list_name = [elem_name + 's']
+                
+        page = 1
+        pages = 1       # total pages
+        while page <= pages:
+            log.debug(f'Fetching page {page} of {method_name} {kwargs}')
+            res = self.call(method_name, page = page, **kwargs)
+            for key in list_name:
+                res = res[key]
+            pages = int(res['pages'])
+            yield from res[elem_name]
+            page += 1
+
+    def walk_albums(self, **kwargs: api_arg) -> Iterable[Dict]:
+        """Iterates over a user's albums"""
+        return self.walk_data('album.getList', **kwargs)
+    
+    def walk_album_docs(self, album_id: int, **kwargs: api_arg) -> Iterable[Dict]:
+        """
+        Iterates over the documents of an album.
+        
+        Args:
+            album_id:   The album's ID.
+            kwargs:     Additional arguments for :iper:`album.docs.getList`
+        
+        """
+        return self.walk_data(
+            'album.docs.getList',
+            album_id = album_id,
+            **kwargs
+        )
+        
+    def walk_doc_search(self, **kwargs: api_arg) -> Iterable[Dict]:
+        """
+        Iterates over a search result
+        """
+        return self.walk_data('doc.search', **kwargs)
+    
+    def walk_doc(self, **kwargs: api_arg) -> Iterable[Dict]:
+        """
+        Iterates over a user's documents
+        """
+        return self.walk_data('doc.getList', **kwargs)
+    
+    
+
+

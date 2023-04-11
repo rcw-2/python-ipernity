@@ -1,0 +1,1502 @@
+{
+    "account.getQuota": {
+        "about": "http://www.ipernity.com/help/api/method/account.getQuota",
+        "authentication": {
+            "post": "0",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "account.getQuota",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "account",
+        "title": "Return the calling user upload quota."
+    },
+    "album.create": {
+        "about": "http://www.ipernity.com/help/api/method/album.create",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "album.create",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "album",
+        "title": "Create a new album"
+    },
+    "album.delete": {
+        "about": "http://www.ipernity.com/help/api/method/album.delete",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "album.delete",
+        "permissions": {
+            "doc": "delete"
+        },
+        "service": "album",
+        "title": "Delete an album"
+    },
+    "album.docs.add": {
+        "about": "http://www.ipernity.com/help/api/method/album.docs.add",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "album.docs.add",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "album",
+        "title": "Add one or many docs to an album"
+    },
+    "album.docs.getContext": {
+        "about": "http://www.ipernity.com/help/api/method/album.docs.getContext",
+        "authentication": {
+            "post": "0",
+            "safety": "1",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1283378400",
+        "name": "album.docs.getContext",
+        "permissions": [],
+        "service": "album",
+        "title": "Get the document context in an album"
+    },
+    "album.docs.getList": {
+        "about": "http://www.ipernity.com/help/api/method/album.docs.getList",
+        "authentication": {
+            "post": "0",
+            "safety": "1",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "album.docs.getList",
+        "permissions": [],
+        "service": "album",
+        "title": "Return the list of documents in an album"
+    },
+    "album.docs.remove": {
+        "about": "http://www.ipernity.com/help/api/method/album.docs.remove",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "album.docs.remove",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "album",
+        "title": "Remove one or many docs from an album"
+    },
+    "album.docs.setList": {
+        "about": "http://www.ipernity.com/help/api/method/album.docs.setList",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "album.docs.setList",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "album",
+        "title": "Replace all the documents and the cover of an album"
+    },
+    "album.edit": {
+        "about": "http://www.ipernity.com/help/api/method/album.edit",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "album.edit",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "album",
+        "title": "Edit an album"
+    },
+    "album.get": {
+        "about": "http://www.ipernity.com/help/api/method/album.get",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "album.get",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "album",
+        "title": "Get information about an album."
+    },
+    "album.getFaves": {
+        "about": "http://www.ipernity.com/help/api/method/album.getFaves",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "album.getFaves",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "album",
+        "title": "Return the list of members who have faved a album."
+    },
+    "album.getList": {
+        "about": "http://www.ipernity.com/help/api/method/album.getList",
+        "authentication": {
+            "post": "0",
+            "safety": "1",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "album.getList",
+        "permissions": [],
+        "service": "album",
+        "title": "Return the albums list for a given user"
+    },
+    "album.getVisitors": {
+        "about": "http://www.ipernity.com/help/api/method/album.getVisitors",
+        "authentication": {
+            "post": "0",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "album.getVisitors",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "doc",
+        "title": "Return the album latest visitors."
+    },
+    "album.orderList": {
+        "about": "http://www.ipernity.com/help/api/method/album.orderList",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "album.orderList",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "album",
+        "title": "Change the order of your albums"
+    },
+    "album.setPerms": {
+        "about": "http://www.ipernity.com/help/api/method/album.setPerms",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "album.setPerms",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "album",
+        "title": "Set permissions for an album"
+    },
+    "api.methods.get": {
+        "about": "http://www.ipernity.com/help/api/method/api.methods.get",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1231542000",
+        "name": "api.methods.get",
+        "permissions": [],
+        "service": "api.method",
+        "title": "Return information about an API method."
+    },
+    "api.methods.getList": {
+        "about": "http://www.ipernity.com/help/api/method/api.methods.getList",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "api.methods.getList",
+        "permissions": [],
+        "service": "api.method",
+        "title": "Return the API methods list"
+    },
+    "auth.checkToken": {
+        "about": "http://www.ipernity.com/help/api/method/auth.checkToken",
+        "authentication": {
+            "post": "0",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "auth.checkToken",
+        "permissions": [],
+        "service": "auth",
+        "title": "Check a token validity."
+    },
+    "auth.getFrob": {
+        "about": "http://www.ipernity.com/help/api/method/auth.getFrob",
+        "authentication": {
+            "post": "0",
+            "sign": "1",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "auth.getFrob",
+        "permissions": [],
+        "service": "auth",
+        "title": "Ask for a Frob."
+    },
+    "auth.getToken": {
+        "about": "http://www.ipernity.com/help/api/method/auth.getToken",
+        "authentication": {
+            "post": "0",
+            "sign": "1",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "auth.getToken",
+        "permissions": [],
+        "service": "auth",
+        "title": "Returns the auth token for the given frob"
+    },
+    "doc.albums.add": {
+        "about": "http://www.ipernity.com/help/api/method/doc.albums.add",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1377036000",
+        "name": "doc.albums.add",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "doc",
+        "title": "Add doc in one or many albums"
+    },
+    "doc.checkMD5": {
+        "about": "http://www.ipernity.com/help/api/method/doc.checkMD5",
+        "authentication": {
+            "post": "0",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1250546400",
+        "name": "doc.checkMD5",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "doc",
+        "title": "Check if a doc exists in your stream using MD5."
+    },
+    "doc.comments.add": {
+        "about": "http://www.ipernity.com/help/api/method/doc.comments.add",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.comments.add",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "doc",
+        "title": "Comment on a document."
+    },
+    "doc.comments.delete": {
+        "about": "http://www.ipernity.com/help/api/method/doc.comments.delete",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.comments.delete",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "doc",
+        "title": "Delete a comment on a document."
+    },
+    "doc.comments.edit": {
+        "about": "http://www.ipernity.com/help/api/method/doc.comments.edit",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.comments.edit",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "doc",
+        "title": "Edit a comment on a document."
+    },
+    "doc.comments.get": {
+        "about": "http://www.ipernity.com/help/api/method/doc.comments.get",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.comments.get",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "doc",
+        "title": "Return a comment on a document."
+    },
+    "doc.comments.getList": {
+        "about": "http://www.ipernity.com/help/api/method/doc.comments.getList",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.comments.getList",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "doc",
+        "title": "Return the comments on a document."
+    },
+    "doc.comments.reply": {
+        "about": "http://www.ipernity.com/help/api/method/doc.comments.reply",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.comments.reply",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "doc",
+        "title": "Reply to a comment on a document."
+    },
+    "doc.delete": {
+        "about": "http://www.ipernity.com/help/api/method/doc.delete",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.delete",
+        "permissions": {
+            "doc": "delete"
+        },
+        "service": "doc",
+        "title": "Delete a document."
+    },
+    "doc.get": {
+        "about": "http://www.ipernity.com/help/api/method/doc.get",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1283378400",
+        "name": "doc.get",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "doc",
+        "title": "Get details about document."
+    },
+    "doc.getContainers": {
+        "about": "http://www.ipernity.com/help/api/method/doc.getContainers",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.getContainers",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "doc",
+        "title": "Return all albums and groups the document belongs to."
+    },
+    "doc.getContext": {
+        "about": "http://www.ipernity.com/help/api/method/doc.getContext",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1283378400",
+        "name": "doc.getContext",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "doc",
+        "title": "Get the document context in docstream"
+    },
+    "doc.getExif": {
+        "about": "http://www.ipernity.com/help/api/method/doc.getExif",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1347919200",
+        "name": "doc.getExif",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "doc",
+        "title": "Return the meta information for a document (EXIF/ID3/...)."
+    },
+    "doc.getFaves": {
+        "about": "http://www.ipernity.com/help/api/method/doc.getFaves",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.getFaves",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "doc",
+        "title": "Return the list of members who have faved a document."
+    },
+    "doc.getList": {
+        "about": "http://www.ipernity.com/help/api/method/doc.getList",
+        "authentication": {
+            "post": "0",
+            "safety": "1",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1283378400",
+        "name": "doc.getList",
+        "permissions": [],
+        "service": "doc",
+        "title": "Return the member's list of documents"
+    },
+    "doc.getMedias": {
+        "about": "http://www.ipernity.com/help/api/method/doc.getMedias",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.getMedias",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "doc",
+        "title": "Get document media urls (thumbs, medias, original,...)."
+    },
+    "doc.getPerms": {
+        "about": "http://www.ipernity.com/help/api/method/doc.getPerms",
+        "authentication": {
+            "post": "0",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.getPerms",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "doc",
+        "title": "Return permissions for a document."
+    },
+    "doc.getVisitors": {
+        "about": "http://www.ipernity.com/help/api/method/doc.getVisitors",
+        "authentication": {
+            "post": "0",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.getVisitors",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "doc",
+        "title": "Return the document latest visitors."
+    },
+    "doc.notes.add": {
+        "about": "http://www.ipernity.com/help/api/method/doc.notes.add",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.notes.add",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "doc",
+        "title": "Add a note to a photo."
+    },
+    "doc.notes.delete": {
+        "about": "http://www.ipernity.com/help/api/method/doc.notes.delete",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.notes.delete",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "doc",
+        "title": "Remove a note from a photo."
+    },
+    "doc.notes.edit": {
+        "about": "http://www.ipernity.com/help/api/method/doc.notes.edit",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.notes.edit",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "doc",
+        "title": "Edit a note on a photo."
+    },
+    "doc.search": {
+        "about": "http://www.ipernity.com/help/api/method/doc.search",
+        "authentication": {
+            "post": "0",
+            "safety": "1",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1283378400",
+        "name": "doc.search",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "doc",
+        "title": "Search for documents."
+    },
+    "doc.set": {
+        "about": "http://www.ipernity.com/help/api/method/doc.set",
+        "authentication": {
+            "post": "1",
+            "safety": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.set",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "doc",
+        "title": "Edit a document title and description."
+    },
+    "doc.setGeo": {
+        "about": "http://www.ipernity.com/help/api/method/doc.setGeo",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1372802400",
+        "name": "doc.setGeo",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "doc",
+        "title": "Set longitude and latitude of a document."
+    },
+    "doc.setLicense": {
+        "about": "http://www.ipernity.com/help/api/method/doc.setLicense",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.setLicense",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "doc",
+        "title": "Set the license for a document."
+    },
+    "doc.setPerms": {
+        "about": "http://www.ipernity.com/help/api/method/doc.setPerms",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.setPerms",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "doc",
+        "title": "Set permissions for a document."
+    },
+    "doc.setSafety": {
+        "about": "http://www.ipernity.com/help/api/method/doc.setSafety",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1329519600",
+        "name": "doc.setSafety",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "doc",
+        "title": "Set the safety for a document."
+    },
+    "doc.tags.add": {
+        "about": "http://www.ipernity.com/help/api/method/doc.tags.add",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1244757600",
+        "name": "doc.tags.add",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "doc",
+        "title": "Add a tag to a document."
+    },
+    "doc.tags.edit": {
+        "about": "http://www.ipernity.com/help/api/method/doc.tags.edit",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.tags.edit",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "doc",
+        "title": "Edit (in fact replace) the tags for a document owned by the calling user."
+    },
+    "doc.tags.getList": {
+        "about": "http://www.ipernity.com/help/api/method/doc.tags.getList",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1244757600",
+        "name": "doc.tags.getList",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "doc",
+        "title": "Return the list of tags on a document."
+    },
+    "doc.tags.remove": {
+        "about": "http://www.ipernity.com/help/api/method/doc.tags.remove",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "doc.tags.remove",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "doc",
+        "title": "Remove a tag from a document."
+    },
+    "explore.docs.getPopular": {
+        "about": "http://www.ipernity.com/help/api/method/explore.docs.getPopular",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1394578800",
+        "name": "explore.docs.getPopular",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "explore",
+        "title": "Return the week most popular documents"
+    },
+    "explore.docs.getRecent": {
+        "about": "http://www.ipernity.com/help/api/method/explore.docs.getRecent",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1394578800",
+        "name": "explore.docs.getRecent",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "explore",
+        "title": "Return some recent documents posted by everyone"
+    },
+    "explore.docs.homepage": {
+        "about": "http://www.ipernity.com/help/api/method/explore.docs.homepage",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1249855200",
+        "name": "explore.docs.homepage",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "explore",
+        "title": "Return the homepage focus last 5 items"
+    },
+    "explore.groups.getRandom": {
+        "about": "http://www.ipernity.com/help/api/method/explore.groups.getRandom",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1263510000",
+        "name": "explore.groups.getRandom",
+        "permissions": [],
+        "service": "explore",
+        "title": "Return some random interesting groups"
+    },
+    "faves.albums.add": {
+        "about": "http://www.ipernity.com/help/api/method/faves.albums.add",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "faves.albums.add",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "faves",
+        "title": "Add an album to your faves"
+    },
+    "faves.albums.getList": {
+        "about": "http://www.ipernity.com/help/api/method/faves.albums.getList",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "faves.albums.getList",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "faves",
+        "title": "Return a list of favorite albums for a given user"
+    },
+    "faves.albums.remove": {
+        "about": "http://www.ipernity.com/help/api/method/faves.albums.remove",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "faves.albums.remove",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "faves",
+        "title": "Remove an album from your faves"
+    },
+    "faves.docs.add": {
+        "about": "http://www.ipernity.com/help/api/method/faves.docs.add",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "faves.docs.add",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "faves",
+        "title": "Add a document to your faves"
+    },
+    "faves.docs.getList": {
+        "about": "http://www.ipernity.com/help/api/method/faves.docs.getList",
+        "authentication": {
+            "post": "0",
+            "safety": "1",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1283378400",
+        "name": "faves.docs.getList",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "faves",
+        "title": "Return a list of favorite documents for a given user"
+    },
+    "faves.docs.remove": {
+        "about": "http://www.ipernity.com/help/api/method/faves.docs.remove",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "faves.docs.remove",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "faves",
+        "title": "Remove a document from your faves"
+    },
+    "folder.albums.add": {
+        "about": "http://www.ipernity.com/help/api/method/folder.albums.add",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1382479200",
+        "name": "folder.albums.add",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "folder",
+        "title": "Add one or many albums to a folder"
+    },
+    "folder.albums.getList": {
+        "about": "http://www.ipernity.com/help/api/method/folder.albums.getList",
+        "authentication": {
+            "post": "0",
+            "safety": "1",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1382479200",
+        "name": "folder.albums.getList",
+        "permissions": [],
+        "service": "folder",
+        "title": "Return the list of albums in a folder"
+    },
+    "folder.albums.remove": {
+        "about": "http://www.ipernity.com/help/api/method/folder.albums.remove",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1382479200",
+        "name": "folder.albums.remove",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "folder",
+        "title": "Remove one or many albums from a folder"
+    },
+    "folder.create": {
+        "about": "http://www.ipernity.com/help/api/method/folder.create",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1382479200",
+        "name": "folder.create",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "folder",
+        "title": "Create a new folder"
+    },
+    "folder.delete": {
+        "about": "http://www.ipernity.com/help/api/method/folder.delete",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1382479200",
+        "name": "folder.delete",
+        "permissions": {
+            "doc": "delete"
+        },
+        "service": "folder",
+        "title": "Delete a folder"
+    },
+    "folder.edit": {
+        "about": "http://www.ipernity.com/help/api/method/folder.edit",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1382479200",
+        "name": "folder.edit",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "folder",
+        "title": "Edit a folder"
+    },
+    "folder.get": {
+        "about": "http://www.ipernity.com/help/api/method/folder.get",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1382479200",
+        "name": "folder.get",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "folder",
+        "title": "Get information about a folder."
+    },
+    "folder.getList": {
+        "about": "http://www.ipernity.com/help/api/method/folder.getList",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1382479200",
+        "name": "folder.getList",
+        "permissions": [],
+        "service": "folder",
+        "title": "Return the folders list for a given user"
+    },
+    "folder.orderList": {
+        "about": "http://www.ipernity.com/help/api/method/folder.orderList",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1382479200",
+        "name": "folder.orderList",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "folder",
+        "title": "Change the order of your folders"
+    },
+    "group.docs.add": {
+        "about": "http://www.ipernity.com/help/api/method/group.docs.add",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "group.docs.add",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "group",
+        "title": "Add one or many docs to a group"
+    },
+    "group.docs.getContext": {
+        "about": "http://www.ipernity.com/help/api/method/group.docs.getContext",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1283378400",
+        "name": "group.docs.getContext",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "group",
+        "title": "Get the document context in a group"
+    },
+    "group.docs.getList": {
+        "about": "http://www.ipernity.com/help/api/method/group.docs.getList",
+        "authentication": {
+            "post": "0",
+            "safety": "1",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1283378400",
+        "name": "group.docs.getList",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "group",
+        "title": "Return the list of documents in a group"
+    },
+    "group.docs.remove": {
+        "about": "http://www.ipernity.com/help/api/method/group.docs.remove",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "group.docs.remove",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "group",
+        "title": "Remove one or many docs from a group"
+    },
+    "group.get": {
+        "about": "http://www.ipernity.com/help/api/method/group.get",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "group.get",
+        "permissions": [],
+        "service": "doc",
+        "title": "Get details about a group."
+    },
+    "group.getList": {
+        "about": "http://www.ipernity.com/help/api/method/group.getList",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "group.getList",
+        "permissions": [],
+        "service": "group",
+        "title": "Return the groups list for a given user"
+    },
+    "group.search": {
+        "about": "http://www.ipernity.com/help/api/method/group.search",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "group.search",
+        "permissions": [],
+        "service": "group",
+        "title": "Search for a group."
+    },
+    "network.autocomplete": {
+        "about": "http://www.ipernity.com/help/api/method/network.autocomplete",
+        "authentication": {
+            "post": "0",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "network.autocomplete",
+        "permissions": {
+            "network": "read"
+        },
+        "service": "network",
+        "title": "Return the members matching a sub-query."
+    },
+    "network.docs.getRecent": {
+        "about": "http://www.ipernity.com/help/api/method/network.docs.getRecent",
+        "authentication": {
+            "post": "0",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1249941600",
+        "name": "network.docs.getRecent",
+        "permissions": [],
+        "service": "doc",
+        "title": "Return recent uploads of the calling user's network"
+    },
+    "network.getList": {
+        "about": "http://www.ipernity.com/help/api/method/network.getList",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "network.getList",
+        "permissions": {
+            "network": "read"
+        },
+        "service": "network",
+        "title": "Return members of someone's network."
+    },
+    "post.comments.add": {
+        "about": "http://www.ipernity.com/help/api/method/post.comments.add",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1403042400",
+        "name": "post.comments.add",
+        "permissions": {
+            "post": "write"
+        },
+        "service": "post",
+        "title": "Comment on a post."
+    },
+    "post.comments.delete": {
+        "about": "http://www.ipernity.com/help/api/method/post.comments.delete",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1403042400",
+        "name": "post.comments.delete",
+        "permissions": {
+            "post": "write"
+        },
+        "service": "post",
+        "title": "Delete a comment on a post."
+    },
+    "post.comments.edit": {
+        "about": "http://www.ipernity.com/help/api/method/post.comments.edit",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1403042400",
+        "name": "post.comments.edit",
+        "permissions": {
+            "post": "write"
+        },
+        "service": "post",
+        "title": "Edit a comment on a post."
+    },
+    "post.comments.get": {
+        "about": "http://www.ipernity.com/help/api/method/post.comments.get",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1403042400",
+        "name": "post.comments.get",
+        "permissions": {
+            "post": "read"
+        },
+        "service": "post",
+        "title": "Return a comment on a post."
+    },
+    "post.comments.getList": {
+        "about": "http://www.ipernity.com/help/api/method/post.comments.getList",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1403042400",
+        "name": "post.comments.getList",
+        "permissions": {
+            "post": "read"
+        },
+        "service": "post",
+        "title": "Return the comments on a post."
+    },
+    "post.comments.reply": {
+        "about": "http://www.ipernity.com/help/api/method/post.comments.reply",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1403042400",
+        "name": "post.comments.reply",
+        "permissions": {
+            "post": "write"
+        },
+        "service": "post",
+        "title": "Reply to a comment on a post."
+    },
+    "post.get": {
+        "about": "http://www.ipernity.com/help/api/method/post.get",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1234998000",
+        "name": "post.get",
+        "permissions": {
+            "blog": "read"
+        },
+        "service": "post",
+        "title": "Get details about a post."
+    },
+    "post.getContext": {
+        "about": "http://www.ipernity.com/help/api/method/post.getContext",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1403128800",
+        "name": "post.getContext",
+        "permissions": {
+            "post": "read"
+        },
+        "service": "post",
+        "title": "Get the post context in posts stream"
+    },
+    "post.getFaves": {
+        "about": "http://www.ipernity.com/help/api/method/post.getFaves",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1354057200",
+        "name": "post.getFaves",
+        "permissions": {
+            "post": "read"
+        },
+        "service": "post",
+        "title": "Return the list of members who have faved a post."
+    },
+    "post.getList": {
+        "about": "http://www.ipernity.com/help/api/method/post.getList",
+        "authentication": {
+            "post": "0",
+            "safety": "1",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1403042400",
+        "name": "post.getList",
+        "permissions": [],
+        "service": "post",
+        "title": "Return the member's list of posts"
+    },
+    "post.getVisitors": {
+        "about": "http://www.ipernity.com/help/api/method/post.getVisitors",
+        "authentication": {
+            "post": "0",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1354057200",
+        "name": "post.getVisitors",
+        "permissions": {
+            "post": "read"
+        },
+        "service": "doc",
+        "title": "Return the post latest visitors."
+    },
+    "post.search": {
+        "about": "http://www.ipernity.com/help/api/method/post.search",
+        "authentication": {
+            "post": "0",
+            "safety": "1",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1403128800",
+        "name": "post.search",
+        "permissions": {
+            "post": "read"
+        },
+        "service": "post",
+        "title": "Search for posts."
+    },
+    "post.set": {
+        "about": "http://www.ipernity.com/help/api/method/post.set",
+        "authentication": {
+            "post": "1",
+            "safety": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1401919200",
+        "name": "post.set",
+        "permissions": {
+            "blog": "write"
+        },
+        "service": "post",
+        "title": "Edit a article title and description."
+    },
+    "tags.docs.getList": {
+        "about": "http://www.ipernity.com/help/api/method/tags.docs.getList",
+        "authentication": {
+            "post": "0",
+            "safety": "1",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1283378400",
+        "name": "tags.docs.getList",
+        "permissions": {
+            "doc": "read"
+        },
+        "service": "tags",
+        "title": "Return the list of documents for a given tag"
+    },
+    "tags.user.getList": {
+        "about": "http://www.ipernity.com/help/api/method/tags.user.getList",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1255816800",
+        "name": "tags.user.getList",
+        "permissions": [],
+        "service": "tags",
+        "title": "Get the tags list for a given user."
+    },
+    "tags.user.getPopular": {
+        "about": "http://www.ipernity.com/help/api/method/tags.user.getPopular",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1255816800",
+        "name": "tags.user.getPopular",
+        "permissions": [],
+        "service": "tags",
+        "title": "Get the most used tags for a given user."
+    },
+    "test.echo": {
+        "about": "http://www.ipernity.com/help/api/method/test.echo",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "test.echo",
+        "permissions": "",
+        "service": "test",
+        "title": "A simple echo test."
+    },
+    "test.hello": {
+        "about": "http://www.ipernity.com/help/api/method/test.hello",
+        "authentication": {
+            "post": "0",
+            "sign": "0",
+            "token": "0"
+        },
+        "modified_at": "1228086000",
+        "name": "test.hello",
+        "permissions": "",
+        "service": "test",
+        "title": "Hello world!"
+    },
+    "upload.checkTickets": {
+        "about": "http://www.ipernity.com/help/api/method/upload.checkTickets",
+        "authentication": {
+            "post": "0",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "upload.checkTickets",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "upload",
+        "title": "Check the status of one or more upload tickets."
+    },
+    "upload.file": {
+        "about": "http://www.ipernity.com/help/api/method/upload.file",
+        "authentication": {
+            "post": "1",
+            "safety": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "upload.file",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "upload",
+        "title": "Upload a new file."
+    },
+    "upload.replace": {
+        "about": "http://www.ipernity.com/help/api/method/upload.replace",
+        "authentication": {
+            "post": "1",
+            "sign": "1",
+            "token": "1"
+        },
+        "modified_at": "1228086000",
+        "name": "upload.replace",
+        "permissions": {
+            "doc": "write"
+        },
+        "service": "upload",
+        "title": "Replace a file."
+    },
+    "user.get": {
+        "about": "http://www.ipernity.com/help/api/method/user.get",
+        "authentication": {
+            "post": "0",
+            "sign": "1",
+            "token": "0"
+        },
+        "modified_at": "1402524000",
+        "name": "user.get",
+        "permissions": [],
+        "service": "user",
+        "title": "Get information about a user"
+    }
+}
