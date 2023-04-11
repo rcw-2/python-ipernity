@@ -14,7 +14,9 @@ Ipernity is non-commercial photo community. For more information, visit
 Installation
 -------------
 
-tbd.
+The source code is available at <https://github.com/rcw-2/python-ipernity>_.
+
+
 
 
 
