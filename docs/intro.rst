@@ -11,7 +11,7 @@ Sybren A. Stüvel's `Flickr API <https://stuvel.eu/software/flickrapi/>`_.
 Installation
 -------------
 
-The source is available at `https://github.com/rcw-2/python-ipernity`_.
+The source is available at `Github <https://github.com/rcw-2/python-ipernity>`_.
 
 
 Limits
