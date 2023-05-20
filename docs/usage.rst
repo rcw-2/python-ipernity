@@ -14,13 +14,15 @@ token, do something like this:
 
     iper = IpernityAPI(my_key, my_secret)
     frob = iper.auth.getFrob()['auth']['frob']
+    url = iper.auth.auth_url({'doc': 'write'}, frob)
 
     print('Starting web browser for authorization...')
     webbrowser.open_new(url)
     input('Press <Enter> after authorizing access in browser... ')
 
     # Store token in API object
-    iper.auth.getToken(frob)
+    token = iper.auth.getToken(frob)
+    iper.token = token['auth']
     print('Token retrieved, you can close the browser now.')
 
 Once the access token is generated, it can be passed to `IpernityAPI`'s
@@ -29,7 +31,6 @@ constructor to create a pre-authorized object:
 .. code-block:: python
 
     from ipernity import IpernityAPI
-
     iper = IpernityAPI(my_key, my_secret, my_token)
 
 
@@ -54,5 +55,26 @@ that the API call returns. See
 `Ipernity API output formats <http://www.ipernity.com/help/api/output.formats.html>`_
 for more information.
 
+
+Iterating over search results
+------------------------------
+
+PyIpernity provides special methods to iterate smoothly over results that are
+distributed as multiple "pages". These generators are:
+
+:meth:`~IpernityAPI.walk_albums`
+    Iterates over a user's albums.
+
+:meth:`~IpernityAPI.walk_album_docs`
+    Iterates over documents in an album.
+
+:meth:`~IpernityAPI.walk_doc_search`
+    Iterates over the result of a document search.
+
+:meth:`~IpernityAPI.walk_docs`
+    Iterates over a user's documents.
+
+:meth:`~IpernityAPI.walk_data`
+    Generic method, called by the other ``walk_*`` methods.
 
 

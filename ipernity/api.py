@@ -15,7 +15,7 @@ from .method import IpernityMethod
 from .exceptions import IpernityError
 
 
-api_arg = Union[str, float]
+api_arg = Union[str, float, int]
 
 log = getLogger(__name__)
 
@@ -223,7 +223,16 @@ class IpernityAPI:
         """
         Iterates over an arbitrary API search.
         
-        This 
+        walk_data guesses the structure of the returned JSON object from the
+        API method used. If this does not work, the ``elem_name`` argument can
+        be given to specify the object keys:
+        
+        *   If ``elem_name`` contains dots, the last part is taken to be the
+            innermost key that points to the list of elements to iterate over,
+            while the preceding parts specify the outer keys.
+        *   If ``elem_name`` does not contain dots, the returned JSON is assumed
+            to contain a key "``elem_name``+s" pointing to an object that
+            contains a key "``elem_name``" that contains the list of results.
         
         Args:
             method_name:    Search method to call. The method must accept
@@ -251,8 +260,12 @@ class IpernityAPI:
                 elem_name = mparts[-1]
             else:
                 list_name = [elem_name + 's']
-                
-        page = 1
+        
+        if 'page' in kwargs:
+            page = kwargs['page']
+            del kwargs['page']
+        else:
+            page = 1
         pages = 1       # total pages
         while page <= pages:
             log.debug(f'Fetching page {page} of {method_name} {kwargs}')
@@ -264,12 +277,22 @@ class IpernityAPI:
             page += 1
 
     def walk_albums(self, **kwargs: api_arg) -> Iterable[Dict]:
-        """Iterates over a user's albums"""
+        """
+        Iterates over a user's albums.
+        
+        See the `album.getList documentation
+        <http://www.ipernity.com/help/api/method/album.getList>`_
+        for possible arguments.
+        """
         return self.walk_data('album.getList', **kwargs)
     
     def walk_album_docs(self, album_id: int, **kwargs: api_arg) -> Iterable[Dict]:
         """
         Iterates over the documents of an album.
+        
+        See the `album.docs.getList documentation
+        <http://www.ipernity.com/help/api/method/album.docs.getList>`_
+        for optional arguments.
         
         Args:
             album_id:   The album's ID.
@@ -284,16 +307,24 @@ class IpernityAPI:
         
     def walk_doc_search(self, **kwargs: api_arg) -> Iterable[Dict]:
         """
-        Iterates over a search result
+        Iterates over a search result.
+        
+        See the `doc.search documentation
+        <http://www.ipernity.com/help/api/method/doc.search>`_
+        for possible arguments.
         """
         return self.walk_data('doc.search', **kwargs)
     
-    def walk_doc(self, **kwargs: api_arg) -> Iterable[Dict]:
+    def walk_docs(self, **kwargs: api_arg) -> Iterable[Dict]:
         """
-        Iterates over a user's documents
+        Iterates over a user's documents.
+        
+        See the `doc.getList documentation
+        <http://www.ipernity.com/help/api/method/doc.getList>`_
+        for possible arguments.
         """
         return self.walk_data('doc.getList', **kwargs)
-    
-    
+
+
 
 

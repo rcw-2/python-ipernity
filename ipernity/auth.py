@@ -108,14 +108,23 @@ class DesktopAuthHandler(AuthHandler):
         """
         Authorization URL.
         
+        See `Ipernity Permissions <http://www.ipernity.com/help/api/permissions.html>`_
+        for a description.
         
+        Args:
+            perms:  Dictionary used to generate the ``perm_XXX`` parameters to the
+                    authorization URL. The keys can be ``doc``, ``blog`` etc.
+            frob:   Data retrieved from :meth:`~DesktopAuthHandler.getFrob`
         """
         params = {
             'api_key':  self.api._api_key,
             'frob':     frob,
         }
         for name, value in perms.items():
-            params['perm_' + name] = value
+            if name.startswith('perm_'):
+                params[name] = value
+            else:
+                params['perm_' + name] = value
         return self._build_url(
             'http://www.ipernity.com/apps/authorize',
             **self._sign_request(**params)
