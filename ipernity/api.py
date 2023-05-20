@@ -189,7 +189,7 @@ class IpernityAPI:
                 sleep(int(status['eta']))
         
         return id_
-                
+    
     def _replace_file(self, filename: str, **kwargs: api_arg) -> int:
         """
         Simplified interface to uploading a file
@@ -324,7 +324,36 @@ class IpernityAPI:
         for possible arguments.
         """
         return self.walk_data('doc.getList', **kwargs)
-
+    
+    def walk_folders(self, **kwargs: api_arg) -> Iterable[Dict]:
+        """
+        Iterates over a user's folders.
+        
+        See the `folder.getList documentation
+        <http://www.ipernity.com/help/api/method/folder.getList>`_
+        for possible arguments.
+        """
+        return self.walk_data('folder.getList', **kwargs)
+    
+    def walk_folder_albums(self, folder_id: int, **kwargs: api_arg) -> Iterable[Dict]:
+        """
+        Iterates over the albums of a folder.
+        
+        See the `folder.albums.getList documentation
+        <http://www.ipernity.com/help/api/method/folder.albums.getList>`_
+        for optional arguments.
+        
+        Args:
+            folder_id:  The folder's ID.
+            kwargs:     Additional arguments for :iper:`folder.albums.getList`
+        
+        """
+        return self.walk_data(
+            'folder.albums.getList',
+            folder_id = folder_id,
+            **kwargs
+        )
+    
 
 
 
