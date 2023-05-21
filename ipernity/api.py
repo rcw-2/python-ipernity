@@ -161,7 +161,7 @@ class IpernityAPI:
         log.debug(f'Returning {result}')
         return result
     
-    def upload_file(self, filename: str, **kwargs: api_arg) -> int:
+    def upload_file(self, filename: str, **kwargs: api_arg) -> str:
         """
         Simplified interface to uploading a file
         
@@ -187,10 +187,10 @@ class IpernityAPI:
                 id_ = status['doc_id']
             else:
                 sleep(int(status['eta']))
-        
+        log.debug('Got id=%s for filename=%s', id_, filename)
         return id_
     
-    def _replace_file(self, filename: str, **kwargs: api_arg) -> int:
+    def _replace_file(self, filename: str, **kwargs: api_arg) -> str:
         """
         Simplified interface to uploading a file
         
