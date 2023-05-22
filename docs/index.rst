@@ -3,7 +3,8 @@ PyIpernity |Version|
 
 :Distribution:  PyIpernity
 :Version:       |Release|
-:Source:        <https://github.com/rcw-2/python-ipernity>_
+:Source:        https://github.com/rcw-2/python-ipernity
+
 
 Contents
 ------------------------
@@ -14,7 +15,8 @@ Contents
     intro
     usage
     api
-    
+
+
 Indices and tables
 -------------------
 

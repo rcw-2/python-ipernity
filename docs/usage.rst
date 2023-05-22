@@ -62,19 +62,19 @@ Iterating over search results
 PyIpernity provides special methods to iterate smoothly over results that are
 distributed as multiple "pages". These generators are:
 
-:meth:`~IpernityAPI.walk_albums`
+:meth:`~ipernity.IpernityAPI.walk_albums`
     Iterates over a user's albums.
 
-:meth:`~IpernityAPI.walk_album_docs`
+:meth:`~ipernity.IpernityAPI.walk_album_docs`
     Iterates over documents in an album.
 
-:meth:`~IpernityAPI.walk_doc_search`
+:meth:`~ipernity.IpernityAPI.walk_doc_search`
     Iterates over the result of a document search.
 
-:meth:`~IpernityAPI.walk_docs`
+:meth:`~ipernity.IpernityAPI.walk_docs`
     Iterates over a user's documents.
 
-:meth:`~IpernityAPI.walk_data`
+:meth:`~ipernity.IpernityAPI.walk_data`
     Generic method, called by the other ``walk_*`` methods.
 
 

@@ -17,6 +17,9 @@ The source is available at `Github <https://github.com/rcw-2/python-ipernity>`_.
 Limits
 -------
 
-* Authorization is limited to desktop authenticaton
-* The only supported data format is JSON
+* Authorization is limited to desktop authenticaton.
+* The only supported data format is JSON (which is parsed into Python objects).
+* PyIpernity has no object-oriented representation of Ipernity object like
+  documents, albums etc.
+* Management of credentials (tokens) is left to the user.
 
