@@ -144,13 +144,6 @@ class IpernityAPI:
         
         result = response.json()
         if result['api']['status'] != 'ok':
-            log.error(
-                '%s returned %s %s: %s',
-                method_name,
-                result['api']['status'],
-                result['api']['code'],
-                result['api']['message']
-            )
             raise IpernityError(
                 result['api']['status'],
                 result['api']['code'],
