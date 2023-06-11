@@ -125,7 +125,14 @@ class IpernityAPI:
         
         url = self._url + method_name + '/json'
         data = self.auth._sign_request(method_name, **kwargs)
-        log.debug(f'Calling {url} with {data}')
+        log.debug(
+            'Calling %s with %s',
+            url,
+            ', '.join([
+                f'{k}=XXX' if k in ['api_key', 'auth_token'] else f'{k}={v}'
+                for k, v in data.items()
+            ])      # Censor potencially sensitive data
+        )
         
         if int(self.__methods__[method_name]['authentication'].get('post', "0")):
             if 'file' in data:
