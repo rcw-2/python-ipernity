@@ -99,17 +99,13 @@ rst_epilog = """
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'classic'
+# html_theme = 'classic'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-html_theme_options = {
-    'logo':         'reswue.webp',
-    'logo_name':    True,
-    'description':  description,
-}
+# html_theme_options = {}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -137,7 +133,7 @@ globaltoc_maxdepth = 4
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'ImageOrgDoc'
+htmlhelp_basename = 'PyIpernityDoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -229,22 +225,6 @@ extlinks = {
         'http://www.ipernity.com/help/api/method/%s', '[%s]',
     ),
 }
-
-# -- Options for APIDoc extension --------------------------------------------
-
-apidocrun_destdir = '_api'
-apidocrun_maxdepth = 3
-apidocrun_implicit_namespaces = True
-apidocrun_separate_modules = True
-#apidocrun_tocfile = None
-apidocrun_module_first = True
-
-apidocrun_module_paths = {
-    '../ipernity': {},
-}
-
-# Override default APIDOC options since they are set in autodoc_default_options:
-os.environ['SPHINX_APIDOC_OPTIONS'] = 'members'
 
 # -- Local overrides ---------------------------------------------------------
 
