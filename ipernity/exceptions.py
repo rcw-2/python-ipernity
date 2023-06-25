@@ -13,7 +13,7 @@ class IpernityError(Exception):
         message: str = 'Unspecified Error',
     ):
         self.status = status
-        self.code = code
+        self.code = int(code)
         self.message = message
         super().__init__(f'Ipernity status {status} {code}: {message}')
 
