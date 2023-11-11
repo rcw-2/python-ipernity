@@ -1,0 +1,39 @@
+# Publish to PyPi when a tag is set
+# 
+
+name: Release-Test
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  
+  publish:
+    
+    name: Publish to PyPi Test
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      id-token: write
+    strategy:
+      matrix:
+        python-version: ["3.10"]
+    steps:
+    - uses: actions/checkout@v3
+      name: Checkout Git repository
+      with:
+        fetch-depth:  0
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Generate Packages
+      run: |
+        pip install setuptools-scm
+        #python -m setuptools_scm | grep '\.dev' && exit 1
+        pip install build
+        python -m build
+    - name: Upload to pypi.org
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://test.pypi.org/legacy/
