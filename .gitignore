@@ -2,8 +2,10 @@
 *.pyc
 __pycache__
 
-# Geany files
+# Editors etc.
 *.geany
+*.code-workspace
+/.vscode/
 
 # Backups and temporary files
 *~
@@ -36,3 +38,4 @@ ipernity/_version.py
 # Authentication data for tests
 .token.json
 .key.json
+
