@@ -2,10 +2,11 @@
 *.pyc
 __pycache__
 
-# Editors etc.
+# Editors and development environments
 *.geany
 *.code-workspace
 /.vscode/
+/.venv/
 
 # Backups and temporary files
 *~
