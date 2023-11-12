@@ -10,7 +10,7 @@ from typing import Any, Dict, Iterable, Mapping, Optional, Union
 
 import requests
 
-from .auth import AuthHandler, DesktopAuthHandler
+from .auth import AuthHandler, auth_methods
 from .method import IpernityMethod
 from .exceptions import IpernityError
 
@@ -60,8 +60,8 @@ class IpernityAPI:
         self._api_secret = api_secret
         self.token = token
         self._url = url
-        if auth == 'desktop':
-            self._auth = DesktopAuthHandler(self)
+        if auth in auth_methods:
+            self._auth = auth_methods[auth](self)
         else:
             raise ValueError(f'Authentication method {auth} is not supported')
     

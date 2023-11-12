@@ -129,4 +129,49 @@ class DesktopAuthHandler(AuthHandler):
             'http://www.ipernity.com/apps/authorize',
             **self._sign_request(**params)
         )
+
+
+class WebAuthHandler(AuthHandler):
+    """
+    Authentication for web applications
+    
+    Args:
+        api:    The :class:`IpernityAPI` object to which the handler belongs.
+    
+    .. seealso::
+        *   `Web Authentication <http://www.ipernity.com/help/api/auth.web.html>`_
+            at Ipernity
+    """
+    def __init__(self, api: 'IpernityAPI'):
+        super().__init__(api)
+    
+    def auth_url(self, perms: Mapping) -> str:
+        """
+        Authorization URL.
         
+        See `Ipernity Permissions <http://www.ipernity.com/help/api/permissions.html>`_
+        for a description.
+        
+        Args:
+            perms:  Dictionary used to generate the ``perm_XXX`` parameters to the
+                    authorization URL. The keys can be ``doc``, ``blog`` etc.
+        """
+        params = {
+            'api_key':  self.api._api_key,
+        }
+        for name, value in perms.items():
+            if name.startswith('perm_'):
+                params[name] = value
+            else:
+                params['perm_' + name] = value
+        return self._build_url(
+            'http://www.ipernity.com/apps/authorize',
+            **self._sign_request(**params)
+        )
+
+
+auth_methods = {
+    'desktop':  DesktopAuthHandler,
+    'web':      WebAuthHandler,
+}
+
