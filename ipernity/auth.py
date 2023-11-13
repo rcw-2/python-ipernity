@@ -149,7 +149,7 @@ class WebAuthHandler(AuthHandler):
         *   `Web Authentication <http://www.ipernity.com/help/api/auth.web.html>`_
             at Ipernity
     """
-    def __init__(self, api: 'IpernityAPI'):
+    def __init__(self, api: 'IpernityAPI'):                 # type: ignore # noqa: F821
         super().__init__(api)
     
     def auth_url(self, perms: Mapping) -> str:
