@@ -21,6 +21,7 @@ skipped_methods = [
 
 basedir = os.path.dirname(os.path.dirname(__file__))
 keyfile = os.path.join(basedir, '.key.json')
+webkeyfile = os.path.join(basedir, '.webkey.json')
 tokenfile = os.path.join(basedir, '.token.json')
 logfile = os.path.join(basedir, 'test.log')
 methodlist = os.path.join(basedir, 'tested_methods.json')
@@ -39,6 +40,7 @@ def files():
     return {
         'key':      keyfile,
         'token':    tokenfile,
+        'webkey':   webkeyfile,
     }
 
 

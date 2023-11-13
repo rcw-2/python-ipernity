@@ -39,4 +39,5 @@ ipernity/_version.py
 # Authentication data for tests
 .token.json
 .key.json
+.webkey.json
 

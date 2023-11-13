@@ -22,6 +22,9 @@ Authenticator Classes
     .. autoclass:: DesktopAuthHandler
         :members:
 
+    .. autoclass:: WebAuthHandler
+        :members:
+
 
 Methods Class
 ----------------------------

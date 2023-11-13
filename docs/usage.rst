@@ -5,8 +5,13 @@ Usage
 Authentication and Authorization
 ----------------------------------
 
-So far, only desktop authentication is supported. To get an access
-token, do something like this:
+So far, only desktop and web authentication are supported.
+
+
+Desktop Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+To get an access token, do something like this:
 
 .. code-block:: python
 
@@ -20,9 +25,8 @@ token, do something like this:
     webbrowser.open_new(url)
     input('Press <Enter> after authorizing access in browser... ')
 
-    # Store token in API object
-    token = iper.auth.getToken(frob)
-    iper.token = token['auth']
+    # Get access token and store it in API object
+    iper.auth.getToken(frob)
     print('Token retrieved, you can close the browser now.')
 
 Once the access token is generated, it can be passed to `IpernityAPI`'s
@@ -32,6 +36,41 @@ constructor to create a pre-authorized object:
 
     from ipernity import IpernityAPI
     iper = IpernityAPI(my_key, my_secret, my_token)
+
+.. seealso::
+    * `Ipernity Documentation <http://www.ipernity.com/help/api/auth.soft.html>`_
+
+Web Authentication (Flask)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following snippet illustrates the authentication procedure for a
+`Flask <https://flask.palletsprojects.com/>`_ app. The URL for
+``callback`` must be given to Ipernity on creation of the API key.
+
+.. code-block:: python
+
+    from flask import Flask, redirect, session
+    from ipernity import IpernityAPI
+
+    app = Flask()
+
+    # Application should redirect here when authorization is required
+    @app.route('/login')
+    def login():
+        iper = IpernityAPI(my_key, my_secret, auth='web')
+        return redirect(iper.auth.auth_url({'doc': 'write'}))
+    
+    # Ipernity will redirect here on successful authorization
+    @app.route('/callback')
+    def callback():
+        frob = request.params['frob']
+        iper = IpernityAPI(my_key, my_secret, auth='web')
+        token = iper.auth.getToken(frob)['auth']
+        session['token'] = token
+
+
+.. seealso::
+    * `Ipernity Documentation <http://www.ipernity.com/help/api/auth.web.html>`_
 
 
 Calling API methods
