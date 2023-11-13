@@ -60,12 +60,19 @@ class AuthHandler(ABC):
         })
         return kwargs
     
-    def getToken(self, frob: str, **kwargs) -> Mapping:
+    def getToken(self, frob: str, store_token: bool = True, **kwargs) -> Mapping:
         """
-        Runs the :iper:`auth.getToken` API method
+        Runs the :iper:`auth.getToken` API method.
+        
+        Args:
+            frob:           String gotten via :meth:`~DesktopAuthHandler.getFrob`
+                            or callback.
+            store_token:    If ``True``, the token will be stored in the API object.
+            kwargs:         Passed to Ipernity as additional parameters.
         """
         result = self.api.call('auth.getToken', frob = frob, **kwargs)
-        self.api.token = result['auth']
+        if store_token:
+            self.api.token = result['auth']
         return result
     
     def checkToken(self, auth_token: str, **kwargs) -> Mapping:
