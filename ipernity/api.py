@@ -37,7 +37,7 @@ class IpernityAPI:
         token:      API token. Can be given as a string or as ``dict``. When
                     given as a dict, the actual token is extracted as
                     ``token['token']``.
-        auth:       Authentication methop, for now only ``desktop`` is supported.
+        auth:       Authentication methop, can be ``desktop`` or ``web``.
         url:        API URL, should normally be left alone.
     
     .. seealso::
@@ -100,12 +100,12 @@ class IpernityAPI:
             self._user = None
     
     @property
-    def user_info(self) -> dict:
+    def user_info(self) -> Optional[dict]:
         """Information about the current user"""
-        if self._user:
-            return self._user
-        auth = self.auth.checkToken(self.token)['auth']
-        self._user = auth['user']
+        if self._user is None:
+            if self.token is not None:
+                auth = self.auth.checkToken(self.token)['auth']
+                self._user = auth['user']
         return self._user
     
     def call(self, method_name: str, **kwargs: api_arg) -> Mapping:
