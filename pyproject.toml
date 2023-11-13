@@ -19,7 +19,7 @@ requires-python = ">=3.8"
 dynamic = ["version"]
 
 [project.urls]
-#documentation = ""
+documentation = "https://pyipernity.readthedocs.io/"
 homepage = "https://github.com/rcw-2/python-ipernity"
 
 [project.optional-dependencies]
