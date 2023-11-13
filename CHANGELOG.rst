@@ -1,4 +1,4 @@
-v0.1.3 (2023-11-??)
+v0.1.3 (2023-11-13)
 --------------------
 *   Web authentication added.
 *   ``user_info`` returns ``None`` when user data is not present
