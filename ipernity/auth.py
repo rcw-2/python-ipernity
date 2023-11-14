@@ -84,9 +84,13 @@ class AuthHandler(ABC):
         )
     
     @abstractmethod
-    def auth_url(self):
+    def auth_url(self, perms: Mapping, **kwargs):
         """
         URL to pass to a web browser for authorization.
+        
+        Args:
+            perms:  Dictionary used to generate the ``perm_XXX`` parameters to the
+                    authorization URL. The keys can be ``doc``, ``blog`` etc.
         """
         pass
     

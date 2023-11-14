@@ -1,3 +1,7 @@
+v0.1.4 (2023-11-??)
+--------------------
+*   Fixed ``walk_data`` for ``group.getList``
+
 v0.1.3 (2023-11-13)
 --------------------
 *   Web authentication added.

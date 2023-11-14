@@ -221,9 +221,9 @@ class IpernityAPI:
         **kwargs: api_arg
     ) -> Iterable[Dict]:
         """
-        Iterates over an arbitrary API search.
+        Iterates over an arbitrary API search/list.
         
-        walk_data guesses the structure of the returned JSON object from the
+        ``walk_data`` guesses the structure of the returned JSON object from the
         API method used. If this does not work, the ``elem_name`` argument can
         be given to specify the object keys:
         
@@ -266,13 +266,22 @@ class IpernityAPI:
             del kwargs['page']
         else:
             page = 1
-        pages = 1       # total pages
+        pages = page       # total pages
+        
         while page <= pages:
             log.debug(f'Fetching page {page} of {method_name} {kwargs}')
             res = self.call(method_name, page = page, **kwargs)
             for key in list_name:
                 res = res[key]
-            pages = int(res['pages'])
+            if 'pages' in res:
+                pages = int(res['pages'])
+            else:
+                total = int(res['total'])
+                per_page = int(res['per_page'])
+                pages = total // per_page
+                if total % per_page:
+                    pages += 1
+                
             yield from res[elem_name]
             page += 1
 
