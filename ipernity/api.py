@@ -281,8 +281,11 @@ class IpernityAPI:
                 pages = total // per_page
                 if total % per_page:
                     pages += 1
-                
-            yield from res[elem_name]
+            
+            if elem_name in res:
+                yield from res[elem_name]
+            else:
+                log.debug('No key %s in result', elem_name)
             page += 1
 
     def walk_albums(self, **kwargs: api_arg) -> Iterable[Dict]:
