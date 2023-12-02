@@ -40,12 +40,16 @@ constructor to create a pre-authorized object:
 .. seealso::
     * `Ipernity Documentation <http://www.ipernity.com/help/api/auth.soft.html>`_
 
+
 Web Authentication (Flask)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following snippet illustrates the authentication procedure for a
-`Flask <https://flask.palletsprojects.com/>`_ app. The URL for
-``callback`` must be given to Ipernity on creation of the API key.
+The following snippet illustrates the authentication procedure using an example
+`Flask <https://flask.palletsprojects.com/>`_ application. For a description
+of the process, see the
+`Ipernity Documentation <http://www.ipernity.com/help/api/auth.web.html>`.
+The URL for ``callback`` must be given to Ipernity on creation of the
+API key.
 
 .. code-block:: python
 
@@ -68,7 +72,6 @@ The following snippet illustrates the authentication procedure for a
         token = iper.auth.getToken(frob)['auth']
         session['token'] = token
 
-
 .. seealso::
     * `Ipernity Documentation <http://www.ipernity.com/help/api/auth.web.html>`_
 
@@ -78,7 +81,7 @@ Calling API methods
 
 There are two ways of calling Ipernity API methods:
 
-#. The :meth:`~IpernityAPI.call` method.
+#. The :meth:`~ipernity.api.IpernityAPI.call` method.
 #. The "method property" scheme.
 
 The difference is best shown in an example:
@@ -101,19 +104,19 @@ Iterating over search results
 PyIpernity provides special methods to iterate smoothly over results that are
 distributed as multiple "pages". These generators are:
 
-:meth:`~ipernity.IpernityAPI.walk_albums`
+:meth:`~ipernity.api.IpernityAPI.walk_albums`
     Iterates over a user's albums.
 
-:meth:`~ipernity.IpernityAPI.walk_album_docs`
+:meth:`~ipernity.api.IpernityAPI.walk_album_docs`
     Iterates over documents in an album.
 
-:meth:`~ipernity.IpernityAPI.walk_doc_search`
+:meth:`~ipernity.api.IpernityAPI.walk_doc_search`
     Iterates over the result of a document search.
 
-:meth:`~ipernity.IpernityAPI.walk_docs`
+:meth:`~ipernity.api.IpernityAPI.walk_docs`
     Iterates over a user's documents.
 
-:meth:`~ipernity.IpernityAPI.walk_data`
+:meth:`~ipernity.api.IpernityAPI.walk_data`
     Generic method, called by the other ``walk_*`` methods.
 
 

@@ -34,10 +34,14 @@ class IpernityAPI:
     Args:
         api_key:    The API key obtained from Ipernity.
         api_secret: The secret belonging to the API key.
-        token:      API token. Can be given as a string or as ``dict``. When
-                    given as a dict, the actual token is extracted as
-                    ``token['token']``.
-        auth:       Authentication methop, can be ``desktop`` or ``web``.
+        token:      API token. Can be given as a string or as a mapping. When
+                    given as a mapping, the actual token is extracted as
+                    ``token['token']``, and ``token['user']`` is stored as
+                    user information (see :attr:`IpernityAPI.user`). The format
+                    should be like the user part of the return data of
+                    :iper:`auth.getToken`.
+        auth:       Authentication methop, can be ``desktop`` or ``web``. The
+                    authentication handler is set accordingly.
         url:        API URL, should normally be left alone.
     
     .. seealso::
@@ -51,7 +55,7 @@ class IpernityAPI:
         self,
         api_key: str,
         api_secret: str,
-        token: Union[str, Dict, None] = None,
+        token: Union[str, Mapping, None] = None,
         auth: str = 'desktop',
         url: str = 'http://api.ipernity.com/api/',
     ):
@@ -101,7 +105,9 @@ class IpernityAPI:
     
     @property
     def user_info(self) -> Optional[dict]:
-        """Information about the current user"""
+        """
+        Information about the current user
+        """
         if self._user is None:
             if self.token is not None:
                 auth = self.auth.checkToken(self.token)['auth']
@@ -117,7 +123,7 @@ class IpernityAPI:
             kwargs:         API arguments
         
         Raises:
-            HTTPError:      HTTP access failed.
+            HTTPError:      HTTP request failed.
             IpernityError:  API returned an error.
         """
         if method_name not in self.__methods__:
@@ -131,7 +137,7 @@ class IpernityAPI:
             ', '.join([
                 f'{k}=XXX' if k in ['api_key', 'auth_token'] else f'{k}={v}'
                 for k, v in data.items()
-            ])      # Censor potencially sensitive data
+            ])      # Censor potentially sensitive data
         )
         
         if int(self.__methods__[method_name]['authentication'].get('post', "0")):
