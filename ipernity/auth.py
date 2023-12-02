@@ -64,11 +64,17 @@ class AuthHandler(ABC):
         """
         Runs the :iper:`auth.getToken` API method.
         
+        By default, also stores the token and user info in the API object.
+        
         Args:
             frob:           String gotten via :meth:`~DesktopAuthHandler.getFrob`
                             or callback.
-            store_token:    If ``True``, the token will be stored in the API object.
+            store_token:    If ``True``, the token and user info will be stored in
+                            the API object.
             kwargs:         Passed to Ipernity as additional parameters.
+        
+        Return:
+            The result of the API call.
         """
         result = self.api.call('auth.getToken', frob = frob, **kwargs)
         if store_token:
