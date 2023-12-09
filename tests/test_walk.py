@@ -1,10 +1,10 @@
 
 import pytest
 
-def test_walk_albums(api, changes):
+def test_walk_albums(api, test_config):
     n = 0
     for album in api.walk_albums():
-        assert album['owner']['user_id'] == changes['user']['user_id']
+        assert album['owner']['user_id'] == test_config['user']['user_id']
         n += 1
         if n > 10:
             break

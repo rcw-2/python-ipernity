@@ -1,12 +1,20 @@
 
+from __future__ import annotations
+
 import json
 import logging
 import os
+from html.parser import HTMLParser
 from time import time
+from urllib.parse import parse_qs, urlparse
+from typing import Any, Dict, Mapping
 
 import pytest
+import requests
+import yaml
 
 from ipernity import IpernityAPI, IpernityError
+from ipernity.auth import DesktopAuthHandler, WebAuthHandler
 
 
 # API functions that are not tested
@@ -20,40 +28,70 @@ skipped_methods = [
 
 
 basedir = os.path.dirname(os.path.dirname(__file__))
-keyfile = os.path.join(basedir, '.key.json')
-webkeyfile = os.path.join(basedir, '.webkey.json')
-tokenfile = os.path.join(basedir, '.token.json')
 logfile = os.path.join(basedir, 'test.log')
 methodlist = os.path.join(basedir, 'tested_methods.json')
 
-logging.basicConfig(
-    level = logging.DEBUG,
-    filename = logfile,
-    filemode = 'w',
-    format = '%(levelname)s %(name)s(%(filename)s:%(lineno)s) %(message)s'
-)
+
+perms = {'doc': 'delete'}
+
+
+# logging.basicConfig(
+#     level = logging.DEBUG,
+#     filename = logfile,
+#     filemode = 'w',
+#     format = '%(levelname)s %(name)s(%(filename)s:%(lineno)s) %(message)s'
+# )
 log = logging.getLogger(__name__)
 
 
-@pytest.fixture
-def files():
-    return {
-        'key':      keyfile,
-        'token':    tokenfile,
-        'webkey':   webkeyfile,
-    }
-
+@pytest.fixture(scope='session')
+def test_config() -> Dict:
+    cfgfile = os.path.join(os.path.dirname(__file__), '.test-config.yaml')
+    with open(cfgfile, 'r') as cfg:
+        return yaml.load(cfg, Loader=yaml.SafeLoader)
+    
 
 @pytest.fixture
-def api(token, tested_methods):
-    with open(keyfile, 'r') as kf:
-        app = json.load(kf)
-    return TestAPI(
-        app['api_key'],
-        app['api_secret'],
-        token,
+def api(test_config: Dict, tested_methods: TestedMethods):
+    config = test_config['auth']['desktop']
+    api = TestAPI(
+        config,
         tested_methods
     )
+    if _auth_from_config(config, api):
+        return api
+    
+    browser = IpernitySession(test_config['user']['cookies'])
+    frob = api.auth.getFrob()['auth']['frob']
+    browser.authorize(api.auth.auth_url(perms, frob))
+    config['token'] = api.auth.getToken(frob)['auth']
+    return api
+
+
+@pytest.fixture
+def webapi(test_config: Dict, tested_methods: TestedMethods):
+    config = test_config['auth']['web']
+    api = TestAPI(
+        config,
+        tested_methods,
+        auth = 'web'
+    )
+    if _auth_from_config(config, api):
+        return api
+    
+    browser = IpernitySession(test_config['user']['cookies'])
+    frob = browser.authorize(api.auth.auth_url(perms))
+    config['token'] = api.auth.getToken(frob)['auth']
+    return api
+
+
+def _auth_from_config(config: Mapping, api: IpernityAPI) -> bool:
+    if api.token is not None:
+        return True
+    
+    if 'token' in config:
+        api.token = config['token']
+        return True
 
 
 @pytest.fixture(scope = 'session')
@@ -68,23 +106,20 @@ def changes():
 
 
 @pytest.fixture(scope = 'session')
-def perms():
-    return {'doc': 'delete'}
-
-
-@pytest.fixture(scope = 'session')
-def token(changes):
-    with open(tokenfile, 'r') as tf:
-        auth = json.load(tf)
-    changes['user'].update(auth['user'])
-    return auth
-
-
-@pytest.fixture(scope = 'session')
 def tested_methods():
     methods = TestedMethods()
     yield methods
     methods.save(methodlist)
+
+
+@pytest.fixture
+def browser(test_config: Mapping) -> IpernitySession:
+    session = IpernitySession()
+    for domain, paths in test_config['user']['cookies'].items():
+        for path, cookies in paths.items():
+            for name, value in cookies.items():
+                session.cookies.set(name, value, domain=domain, path=path)
+    return session
 
 
 class TestedMethods:
@@ -119,12 +154,107 @@ class TestedMethods:
 
 
 class TestAPI(IpernityAPI):
-    def __init__(self, key, secret, token, tested):
+    def __init__(self, config, tested, auth = 'desktop'):
         self._tested_methods = tested
-        super().__init__(key, secret, token)
+        super().__init__(
+            config.get('api_key'),
+            config.get('api_secret'),
+            config.get('token'),
+            auth = auth
+        )
     
     def call(self, method_name, **kwargs):
         res = super().call(method_name, **kwargs)
         self._tested_methods.mark(method_name)
         return res
+
+
+class IpernitySession(requests.Session):
+    def __init__(self, cookies: Mapping):
+        super().__init__()
+        for domain, paths in cookies.items():
+            for path, cookies in paths.items():
+                for name, value in cookies.items():
+                    self.cookies.set(name, value, domain=domain, path=path)
+    
+    def authorize(self, auth_url: str) -> str:
+        log.info('Authorizing via %s', auth_url)
+        res = self.get(auth_url, allow_redirects=False)
+        mimetype = res.headers.get('Content-Type')
+        log.info('Got result %d: %s', res.status_code, mimetype)
+        
+        if res.status_code == 200 and mimetype.startswith('text/html'):
+            log.debug('Text: %s', res.text)
+            html = IpernityParser()
+            html.feed(res.text)
+            if html.ok:
+                log.info('Desktop login OK.')
+                return None
+            
+            url = urlparse(auth_url)
+            log.info('Posting authorization %s', html.params)
+            res = self.request(
+                html.method,
+                auth_url,
+                data = html.params,
+                allow_redirects = False
+            )
+            mimetype = res.headers.get('Content-Type')
+            log.info('Got result %d: %s', res.status_code, mimetype)
+        
+        if res.status_code == 302:
+            url = res.headers.get('location')
+            log.info('Got redirect to %s', url)
+            if url.startswith('http://127.0.0.1'):
+                frob = parse_qs(urlparse(url).query)['frob'][0]
+                log.info('Returning frob %s', frob)
+                return frob
+        
+        if mimetype.startswith('text/html'):
+            log.debug('Text: %s', res.text)
+        
+        log.error('No frob')
+        return None
+
+
+class IpernityParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.parsing_form = False
+        self.params = {}
+        self.ok = False
+    
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]):
+        if tag == 'form':
+            if self.get_attr(attrs, 'name') == 'fa':
+                if self.ok:
+                    raise RuntimeError('Something strange happened')
+                self.method = self.get_attr(attrs, 'method')
+                self.parsing_form = True
+        
+        elif (
+            self.parsing_form and
+            tag == 'input' and
+            self.get_attr(attrs, 'type') == 'hidden'
+        ):
+            self.params[self.get_attr(attrs, 'name')] = self.get_attr(attrs, 'value')
+        
+        elif tag == 'div' and self.get_attr(attrs, 'class') == 'ok':
+            if self.params:
+                raise RuntimeError('Something strange happened')
+            self.ok = True
+    
+    def handle_endtag(self, tag: str):
+        if tag == 'form' and self.parsing_form:
+            if self.ok:
+                raise RuntimeError('Something strange happened')
+            self.parsing_form = False
+    
+    @staticmethod
+    def get_attr(attrs: list, key: str) -> str|None:
+        for k, v in attrs:
+            if k == key:
+                return v
+        return None
+
 

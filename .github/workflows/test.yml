@@ -82,19 +82,28 @@ jobs:
       run: |
         # There seems to be no easy way to install dependencies
         # from pyproject.toml, so we just install the package...
-        pip install -e .
-        pip install coverage[toml] pytest pytest-cov
+        pip install -e .[test]
     - name: Prepare test configuration
       run: |
-        # Generate test MySQL configuration
-        cat >.key.json <<EOF
-        {
-          "api_key": "${{ secrets.API_KEY }}",
-          "api_secret": "${{ secrets.API_SECRET }}"
-        }
-        EOF
-        cat >.token.json <<EOF
-        ${{ secrets.API_TOKEN }}
+        # Generate test configuration
+        cat >tests/.test-config.yaml <<EOF
+        auth:
+          desktop:
+            api_key: "${{ secrets.API_KEY }}"
+            api_secret: "${{ secrets.API_SECRET }}"
+          web:
+            api_key: "${{ secrets.WEB_API_KEY }}"
+            api_secret: "${{ secrets.WEB_API_SECRET }}"
+        
+        user:
+          user_id: "${{ secrets.USER_ID }}"
+          username: "${{ secrets.USERNAME }}"
+          cookies:
+            www.ipernity.com:
+              /:
+                cookie_consent: ok
+                s: ${{ secrets.COOKIE_S }}
+                ua: ${{ secrets.COOKIE_UA }}
         EOF
     - name: Test with Pytest
       run: |

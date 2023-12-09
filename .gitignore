@@ -36,8 +36,5 @@ ipernity/_version.py
 # Experimental stuff
 /experiments
 
-# Authentication data for tests
-.token.json
-.key.json
-.webkey.json
-
+# Configuration data for tests
+tests/.test-config.yaml

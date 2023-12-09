@@ -24,6 +24,7 @@ homepage = "https://github.com/rcw-2/python-ipernity"
 
 [project.optional-dependencies]
 docs = ["sphinx", "tomli; python_version < '3.11'"]
+test = ['PyYAML', 'pytest', 'pytest-cov']
 
 [build-system]
 requires = ["setuptools", "setuptools_scm>=6.4"]
