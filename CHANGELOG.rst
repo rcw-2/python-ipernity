@@ -1,4 +1,4 @@
-v0.1.5 (2023-12-??)
+v0.1.5 (2023-12-09)
 --------------------
 *   New attribute ``permissions`` and method ``has_permissions``.
 
