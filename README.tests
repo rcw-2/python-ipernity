@@ -1,9 +1,12 @@
 Running the Tests
 ==================
 
+WARNING:    The tests will DELETE EVERYTHING in the Ipernity account used.
+            DO NOT use your regular Ipernity account for running the tests.
+
 Since the tests need access to Ipernity, some preparation is necessary to run
-them. You need an Ipernity account to run the tests, too. Testing should be
-done in a virtual environment. To prepare, follow this procedure:
+them. You need an SEPARATE Ipernity account to run the tests, too. Testing
+should be done in a virtual environment. To prepare, follow this procedure:
 
 1. Install the test requisites:
 
@@ -29,8 +32,7 @@ done in a virtual environment. To prepare, follow this procedure:
         api_key: "<your second application key>"
         api_secret: "<your second application secret>"
 
-
-    ipernity:
+    user:
       user_id: "<your user id on Ipernity>"
       username: "<your display name on Ipernity>"
       cookies:
@@ -40,8 +42,8 @@ done in a virtual environment. To prepare, follow this procedure:
             s: "<your s cookie>"
             ua: "<your ua cookie>"
     
-    If you cloned the repository on Github, you can pass these parameters to
-    the "test" workflow as secrets.
+   If you cloned the repository on Github, you can pass these parameters to
+   the "test" workflow as secrets.
 
 6. After that, you should be able to run the tests with
 

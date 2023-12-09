@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+from hashlib import md5
 from html.parser import HTMLParser
 from time import time
 from urllib.parse import parse_qs, urlparse
@@ -47,6 +48,13 @@ def test_config() -> Dict:
     with open(cfgfile, 'r') as cfg:
         return yaml.load(cfg, Loader=yaml.SafeLoader)
     
+
+@pytest.fixture(scope='session')
+def test_data() -> Dict:
+    datafile = os.path.join(os.path.dirname(__file__), 'data.yaml')
+    with open(datafile, 'r') as data:
+        return yaml.load(data, Loader=yaml.SafeLoader)
+
 
 @pytest.fixture
 def api(test_config: Dict, tested_methods: TestedMethods):
@@ -93,6 +101,40 @@ def _auth_from_config(config: Mapping, api: IpernityAPI) -> bool:
     return False
 
 
+@pytest.fixture
+def images(api, test_data):
+    imgs = []
+    for name, data in test_data['images'].items():
+        img = None
+        if 'md5' not in data:
+            path = os.path.join(os.path.dirname(__file__), name)
+            log.debug('Calculating MD5 of %s', path)
+            data['md5'] = md5(open(path, 'rb').read()).hexdigest()
+        for doc in api.doc.checkMD5(md5 = data['md5'])['docs']['doc']:
+            try:
+                doc = api.doc.get(doc_id = doc['doc_id'], extra='md5')['doc']
+            except IpernityError:
+                continue
+            if doc['owner']['user_id'] != api.user_info['user_id']:
+                continue
+            img = doc
+            break
+        
+        if not img:
+            id_ = api.upload_file(
+                path,
+                public = 0,
+                title = data['title'],
+                description = data['desc']
+            )
+            img = api.doc.get(doc_id = id_, extra='md5')['doc']
+        
+        img['filename'] = name
+        imgs.append(img)
+    
+    return imgs
+
+
 @pytest.fixture(scope = 'session')
 def changes():
     data = {
@@ -112,13 +154,13 @@ def tested_methods():
 
 
 @pytest.fixture
-def browser(test_config: Mapping) -> IpernitySession:
-    session = IpernitySession()
-    for domain, paths in test_config['user']['cookies'].items():
-        for path, cookies in paths.items():
-            for name, value in cookies.items():
-                session.cookies.set(name, value, domain=domain, path=path)
-    return session
+def tabula_rasa(api):
+    while int((docs := api.doc.getList()['docs'])['total']):
+        for doc in docs['doc']:
+            api.doc.delete(doc_id = doc['doc_id'])
+    while int((albums := api.album.getList()['albums'])['total']):
+        for album in albums['album']:
+            api.album.delete(album_id = album['album_id'])
 
 
 class TestedMethods:
