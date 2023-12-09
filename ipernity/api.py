@@ -134,6 +134,29 @@ class IpernityAPI:
         return self._perm
     
     
+    _permission_values = ['none', 'read', 'write', 'delete']
+    
+    def has_permissions(self, permissions: Optional[Mapping[str, str]]) -> bool:
+        """
+        Checks if the api has the given permissions.
+        """
+        if self.token is None:
+            return False
+        if permissions is None:
+            return True
+        
+        for tgt, perm in permissions.items():
+            if tgt.startswith('perm_'):
+                tgt = tgt[5:]
+            if (
+                self._permission_values.index(perm) >
+                self._permission_values.index(self.permissions[tgt])
+            ):
+                return False
+        
+        return True
+        
+    
     def _check_token(self):
         auth = self.auth.checkToken(self.token)['auth']
         self._user = auth['user']
