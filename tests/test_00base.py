@@ -66,8 +66,9 @@ def test_quota(test_config, api):
     assert quota['user_id'] == test_config['user']['user_id']
 
 
-def test_permissions(permissions, api):
+def test_permissions(test_data, permissions, api):
     assert api.has_permissions(permissions)
+    assert not api.has_permissions(test_data['non_permissions'])
 
 
 

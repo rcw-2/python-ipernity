@@ -1,3 +1,10 @@
+permissions:
+  doc:  delete
+
+non_permissions:
+  doc:  read
+  blog: write
+
 images:
   tischdecke.jpg:
     title:  Tischdecke 1

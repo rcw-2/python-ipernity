@@ -33,13 +33,12 @@ logfile = os.path.join(basedir, 'test.log')
 methodlist = os.path.join(basedir, 'tested_methods.json')
 
 
-perms = {'doc': 'delete'}
 log = logging.getLogger(__name__)
 
 
 @pytest.fixture
-def permissions() -> Dict:
-    return perms
+def permissions(test_data) -> Dict:
+    return test_data['permissions']
 
 
 @pytest.fixture(scope='session')
@@ -57,7 +56,7 @@ def test_data() -> Dict:
 
 
 @pytest.fixture
-def api(test_config: Dict, tested_methods: TestedMethods):
+def api(test_config: Dict, permissions: Dict, tested_methods: TestedMethods):
     config = test_config['auth']['desktop']
     api = TestAPI(
         config,
@@ -68,13 +67,13 @@ def api(test_config: Dict, tested_methods: TestedMethods):
     
     browser = IpernitySession(test_config['user']['cookies'])
     frob = api.auth.getFrob()['auth']['frob']
-    browser.authorize(api.auth.auth_url(perms, frob))
+    browser.authorize(api.auth.auth_url(permissions, frob))
     config['token'] = api.auth.getToken(frob)['auth']['token']
     return api
 
 
 @pytest.fixture
-def webapi(test_config: Dict, tested_methods: TestedMethods):
+def webapi(test_config: Dict, permissions: Dict, tested_methods: TestedMethods):
     config = test_config['auth']['web']
     api = TestAPI(
         config,
@@ -85,7 +84,7 @@ def webapi(test_config: Dict, tested_methods: TestedMethods):
         return api
     
     browser = IpernitySession(test_config['user']['cookies'])
-    frob = browser.authorize(api.auth.auth_url(perms))
+    frob = browser.authorize(api.auth.auth_url(permissions))
     config['token'] = api.auth.getToken(frob)['auth']['token']
     return api
 
