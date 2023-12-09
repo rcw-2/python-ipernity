@@ -1,6 +1,10 @@
-v0.1.4 (2023-11-??)
+v0.1.5 (2023-12-??)
 --------------------
-*   Fixed ``walk_data`` for ``group.getList`` and empty results
+*   New attribute ``permissions``.
+
+v0.1.4 (2023-11-25)
+--------------------
+*   Fixed ``walk_data`` for ``group.getList`` and empty results.
 
 v0.1.3 (2023-11-13)
 --------------------

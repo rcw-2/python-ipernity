@@ -33,15 +33,12 @@ methodlist = os.path.join(basedir, 'tested_methods.json')
 
 
 perms = {'doc': 'delete'}
-
-
-# logging.basicConfig(
-#     level = logging.DEBUG,
-#     filename = logfile,
-#     filemode = 'w',
-#     format = '%(levelname)s %(name)s(%(filename)s:%(lineno)s) %(message)s'
-# )
 log = logging.getLogger(__name__)
+
+
+@pytest.fixture
+def permissions() -> Dict:
+    return perms
 
 
 @pytest.fixture(scope='session')
@@ -64,7 +61,7 @@ def api(test_config: Dict, tested_methods: TestedMethods):
     browser = IpernitySession(test_config['user']['cookies'])
     frob = api.auth.getFrob()['auth']['frob']
     browser.authorize(api.auth.auth_url(perms, frob))
-    config['token'] = api.auth.getToken(frob)['auth']
+    config['token'] = api.auth.getToken(frob)['auth']['token']
     return api
 
 
@@ -81,7 +78,7 @@ def webapi(test_config: Dict, tested_methods: TestedMethods):
     
     browser = IpernitySession(test_config['user']['cookies'])
     frob = browser.authorize(api.auth.auth_url(perms))
-    config['token'] = api.auth.getToken(frob)['auth']
+    config['token'] = api.auth.getToken(frob)['auth']['token']
     return api
 
 
@@ -92,6 +89,8 @@ def _auth_from_config(config: Mapping, api: IpernityAPI) -> bool:
     if 'token' in config:
         api.token = config['token']
         return True
+    
+    return False
 
 
 @pytest.fixture(scope = 'session')

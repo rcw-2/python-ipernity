@@ -37,8 +37,8 @@ class IpernityAPI:
         token:      API token. Can be given as a string or as a mapping. When
                     given as a mapping, the actual token is extracted as
                     ``token['token']``, and ``token['user']`` is stored as
-                    user information (see :attr:`IpernityAPI.user`). The format
-                    should be like the user part of the return data of
+                    user information (see :attr:`~IpernityAPI.user_info`). The
+                    format should be like the user part of the return data of
                     :iper:`auth.getToken`.
         auth:       Authentication methop, can be ``desktop`` or ``web``. The
                     authentication handler is set accordingly.
@@ -69,6 +69,7 @@ class IpernityAPI:
         else:
             raise ValueError(f'Authentication method {auth} is not supported')
     
+    
     def __getattr__(self, name: str) -> IpernityMethod:
         """Returns an IpernityMethod object for the given method"""
         if name.startswith('_'):
@@ -76,10 +77,12 @@ class IpernityAPI:
         
         return IpernityMethod(self, name)
     
+    
     @property
     def auth(self) -> AuthHandler:
         """The authentication handler"""
         return self._auth
+    
     
     @property
     def token(self) -> str:
@@ -99,9 +102,15 @@ class IpernityAPI:
                 self._user = value['user']
             else:
                 self._user = None
+            if 'permissions' in value:
+                self._perm = value['permissions']
+            else:
+                self._perm = None
         else:
             self._token = value
             self._user = None
+            self._perm = None
+            
     
     @property
     def user_info(self) -> Optional[dict]:
@@ -110,9 +119,26 @@ class IpernityAPI:
         """
         if self._user is None:
             if self.token is not None:
-                auth = self.auth.checkToken(self.token)['auth']
-                self._user = auth['user']
+                self._check_token()
         return self._user
+    
+    
+    @property
+    def permissions(self) -> Optional[dict]:
+        """
+        Information about the current permissions
+        """
+        if self._perm is None:
+            if self.token is not None:
+                self._check_token()
+        return self._perm
+    
+    
+    def _check_token(self):
+        auth = self.auth.checkToken(self.token)['auth']
+        self._user = auth['user']
+        self._perm = auth['permissions']
+
     
     def call(self, method_name: str, **kwargs: api_arg) -> Mapping:
         """
@@ -167,6 +193,7 @@ class IpernityAPI:
         log.debug(f'Returning {result}')
         return result
     
+    
     def upload_file(self, filename: str, **kwargs: api_arg) -> str:
         """
         Simplified interface to uploading a file
@@ -196,6 +223,7 @@ class IpernityAPI:
         log.debug('Got id=%s for filename=%s', id_, filename)
         return id_
     
+    
     def _replace_file(self, filename: str, **kwargs: api_arg) -> str:
         """
         Simplified interface to uploading a file
@@ -219,6 +247,7 @@ class IpernityAPI:
                 sleep(int(status['eta']))
         
         return id_
+    
     
     def walk_data(
         self,
@@ -293,6 +322,7 @@ class IpernityAPI:
             else:
                 log.debug('No key %s in result', elem_name)
             page += 1
+    
 
     def walk_albums(self, **kwargs: api_arg) -> Iterable[Dict]:
         """
@@ -303,6 +333,7 @@ class IpernityAPI:
         for possible arguments.
         """
         return self.walk_data('album.getList', **kwargs)
+    
     
     def walk_album_docs(self, album_id: int, **kwargs: api_arg) -> Iterable[Dict]:
         """
@@ -322,7 +353,8 @@ class IpernityAPI:
             album_id = album_id,
             **kwargs
         )
-        
+    
+    
     def walk_doc_search(self, **kwargs: api_arg) -> Iterable[Dict]:
         """
         Iterates over a search result.
@@ -332,6 +364,7 @@ class IpernityAPI:
         for possible arguments.
         """
         return self.walk_data('doc.search', **kwargs)
+    
     
     def walk_docs(self, **kwargs: api_arg) -> Iterable[Dict]:
         """
@@ -343,6 +376,7 @@ class IpernityAPI:
         """
         return self.walk_data('doc.getList', **kwargs)
     
+    
     def walk_folders(self, **kwargs: api_arg) -> Iterable[Dict]:
         """
         Iterates over a user's folders.
@@ -352,6 +386,7 @@ class IpernityAPI:
         for possible arguments.
         """
         return self.walk_data('folder.getList', **kwargs)
+    
     
     def walk_folder_albums(self, folder_id: int, **kwargs: api_arg) -> Iterable[Dict]:
         """
@@ -371,6 +406,7 @@ class IpernityAPI:
             folder_id = folder_id,
             **kwargs
         )
+    
     
 
 
