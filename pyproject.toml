@@ -19,8 +19,8 @@ requires-python = ">=3.8"
 dynamic = ["version"]
 
 [project.urls]
-documentation = "https://pyipernity.readthedocs.io/"
-homepage = "https://github.com/rcw-2/python-ipernity"
+Documentation = "https://pyipernity.readthedocs.io/"
+Homepage = "https://github.com/rcw-2/python-ipernity"
 
 [project.optional-dependencies]
 docs = ["sphinx", "tomli; python_version < '3.11'"]
