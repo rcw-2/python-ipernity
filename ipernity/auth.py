@@ -81,8 +81,8 @@ class AuthHandler(ABC):
         Args:
             frob:           String gotten via :meth:`~DesktopAuthHandler.getFrob`
                             or callback.
-            store_token:    If ``True``, the token and user info will be stored in
-                            the API object.
+            store_token:    If ``True`` (the default), the token and user info
+                            will be stored in the API object (:attr:`api`).
             kwargs:         Passed to Ipernity as additional parameters.
         
         Return:
