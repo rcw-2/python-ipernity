@@ -136,6 +136,8 @@ class IpernityAPI:
     def permissions(self) -> dict | None:
         """
         Information about the current permissions
+        
+        .. versionadded:: 0.1.5
         """
         if self._perm is None:
             if self.token is not None:
@@ -148,6 +150,8 @@ class IpernityAPI:
     def has_permissions(self, permissions: Mapping[str, str] | None) -> bool:
         """
         Checks if the api has the given permissions.
+        
+        .. versionadded:: 0.1.5
         """
         if self.token is None:
             return False
