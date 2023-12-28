@@ -6,11 +6,13 @@ All funcionality in PyIpernity is available through the :class:`IpernityAPI`
 class. 
 """
 
+from __future__ import annotations
+
 import json
 import os
 from logging import getLogger
 from time import sleep
-from typing import Any, Dict, Iterable, Mapping, Optional, Union
+from typing import Iterable, Mapping, Union, TYPE_CHECKING
 
 import requests
 
@@ -18,8 +20,8 @@ from .auth import AuthHandler, auth_methods
 from .method import IpernityMethod
 from .exceptions import APIRequestError, UnknownMethod, UploadError
 
-
-api_arg = Union[str, float, int]
+if TYPE_CHECKING:
+    api_arg = Union[str, float, int]
 
 log = getLogger(__name__)
 
@@ -62,7 +64,7 @@ class IpernityAPI:
         self,
         api_key: str,
         api_secret: str,
-        token: Union[str, Mapping, None] = None,
+        token: str | Mapping | None = None,
         auth: str = 'desktop',
         url: str = 'http://api.ipernity.com/api/',
     ):
@@ -102,7 +104,7 @@ class IpernityAPI:
         return self._token
     
     @token.setter
-    def token(self, value: Union[str, Dict, None]):
+    def token(self, value: str | Mapping | None):
         if isinstance(value, dict):
             self._token = value['token']
             if 'user' in value:
@@ -120,7 +122,7 @@ class IpernityAPI:
             
     
     @property
-    def user_info(self) -> Optional[dict]:
+    def user_info(self) -> dict | None:
         """
         Information about the current user
         """
@@ -131,7 +133,7 @@ class IpernityAPI:
     
     
     @property
-    def permissions(self) -> Optional[dict]:
+    def permissions(self) -> dict | None:
         """
         Information about the current permissions
         """
@@ -143,7 +145,7 @@ class IpernityAPI:
     
     _permission_values = ['none', 'read', 'write', 'delete']
     
-    def has_permissions(self, permissions: Optional[Mapping[str, str]]) -> bool:
+    def has_permissions(self, permissions: Mapping[str, str] | None) -> bool:
         """
         Checks if the api has the given permissions.
         """
@@ -170,7 +172,7 @@ class IpernityAPI:
         self._perm = auth['permissions']
 
     
-    def call(self, method_name: str, **kwargs: api_arg) -> Mapping:
+    def call(self, method_name: str, **kwargs: api_arg) -> dict:
         """
         Makes an API call.
         
@@ -283,9 +285,9 @@ class IpernityAPI:
     def walk_data(
         self,
         method_name: str,
-        elem_name: Optional[str] = None,
+        elem_name: str | None = None,
         **kwargs: api_arg
-    ) -> Iterable[Dict]:
+    ) -> Iterable[dict]:
         """
         Iterates over an arbitrary API search/list.
         
@@ -355,7 +357,7 @@ class IpernityAPI:
             page += 1
     
 
-    def walk_albums(self, **kwargs: api_arg) -> Iterable[Dict]:
+    def walk_albums(self, **kwargs: api_arg) -> Iterable[dict]:
         """
         Iterates over a user's albums.
         
@@ -366,7 +368,7 @@ class IpernityAPI:
         return self.walk_data('album.getList', **kwargs)
     
     
-    def walk_album_docs(self, album_id: int, **kwargs: api_arg) -> Iterable[Dict]:
+    def walk_album_docs(self, album_id: int, **kwargs: api_arg) -> Iterable[dict]:
         """
         Iterates over the documents of an album.
         
@@ -386,7 +388,7 @@ class IpernityAPI:
         )
     
     
-    def walk_doc_search(self, **kwargs: api_arg) -> Iterable[Dict]:
+    def walk_doc_search(self, **kwargs: api_arg) -> Iterable[dict]:
         """
         Iterates over a search result.
         
@@ -397,7 +399,7 @@ class IpernityAPI:
         return self.walk_data('doc.search', **kwargs)
     
     
-    def walk_docs(self, **kwargs: api_arg) -> Iterable[Dict]:
+    def walk_docs(self, **kwargs: api_arg) -> Iterable[dict]:
         """
         Iterates over a user's documents.
         
@@ -408,7 +410,7 @@ class IpernityAPI:
         return self.walk_data('doc.getList', **kwargs)
     
     
-    def walk_folders(self, **kwargs: api_arg) -> Iterable[Dict]:
+    def walk_folders(self, **kwargs: api_arg) -> Iterable[dict]:
         """
         Iterates over a user's folders.
         
@@ -419,7 +421,7 @@ class IpernityAPI:
         return self.walk_data('folder.getList', **kwargs)
     
     
-    def walk_folder_albums(self, folder_id: int, **kwargs: api_arg) -> Iterable[Dict]:
+    def walk_folder_albums(self, folder_id: int, **kwargs: api_arg) -> Iterable[dict]:
         """
         Iterates over the albums of a folder.
         

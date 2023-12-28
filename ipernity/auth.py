@@ -12,12 +12,16 @@ The authentication handlers provide access to the ``auth.*`` API methods and
 
 """
 
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from hashlib import md5
 from logging import getLogger
 from urllib.parse import urlencode
-from typing import Any, Mapping, Optional
+from typing import Mapping, TYPE_CHECKING
 
+if TYPE_CHECKING:
+    from .api import IpernityAPI, api_arg
 
 log = getLogger(__name__)
 
@@ -31,7 +35,7 @@ class AuthHandler(ABC):
     """
     def __init__(
         self,
-        api: 'IpernityAPI',                                 # type: ignore # noqa: F821
+        api: IpernityAPI,
     ):
         log.debug(
             'Initializing %s with API key %s',
@@ -41,11 +45,11 @@ class AuthHandler(ABC):
         self._api = api
     
     @property
-    def api(self) -> 'IpernityAPI':                         # type: ignore # noqa: F821
+    def api(self) -> IpernityAPI:
         """The corresponding :class:`IpernityAPI` object"""
         return self._api
     
-    def _sign_request(self, method_name: Optional[str] = None, **kwargs) -> Mapping:
+    def _sign_request(self, method_name: str | None = None, **kwargs: api_arg) -> dict:
         """Signs a request."""
         log.debug(f'Generating signature for {method_name} {kwargs}')
         kwargs['api_key'] = self._api._api_key
@@ -68,7 +72,7 @@ class AuthHandler(ABC):
         })
         return kwargs
     
-    def getToken(self, frob: str, store_token: bool = True, **kwargs) -> Mapping:
+    def getToken(self, frob: str, store_token: bool = True, **kwargs:api_arg) -> dict:
         """
         Runs the :iper:`auth.getToken` API method.
         
@@ -92,7 +96,7 @@ class AuthHandler(ABC):
             self.api.token = result['auth']
         return result
     
-    def checkToken(self, auth_token: str, **kwargs) -> Mapping:
+    def checkToken(self, auth_token: str, **kwargs: api_arg) -> dict:
         """Runs the :iper:`auth.checkToken` API method"""
         return self.api.call(
             'auth.checkToken',
@@ -101,7 +105,7 @@ class AuthHandler(ABC):
         )
     
     @abstractmethod
-    def auth_url(self, perms: Mapping, **kwargs):
+    def auth_url(self, perms: Mapping, **kwargs: str) -> str:
         """
         URL to pass to a web browser for authorization.
         
@@ -111,7 +115,7 @@ class AuthHandler(ABC):
         """
         pass
     
-    def _build_url(self, url: str, **kwargs: str) -> str:
+    def _build_url(self, url: str, **kwargs: api_arg) -> str:
         url = f'{url}?' + urlencode(kwargs)
         log.debug(f'Returning url {url}')
         return url
@@ -128,7 +132,7 @@ class DesktopAuthHandler(AuthHandler):
         *   `Desktop Authentication <http://www.ipernity.com/help/api/auth.soft.html>`_
             at Ipernity
     """
-    def getFrob(self) -> Mapping:
+    def getFrob(self) -> dict:
         """
         Get frob for authentication
         
@@ -176,7 +180,7 @@ class WebAuthHandler(AuthHandler):
         *   `Web Authentication <http://www.ipernity.com/help/api/auth.web.html>`_
             at Ipernity
     """
-    def __init__(self, api: 'IpernityAPI'):                 # type: ignore # noqa: F821
+    def __init__(self, api: IpernityAPI):
         super().__init__(api)
     
     def auth_url(self, perms: Mapping) -> str:
