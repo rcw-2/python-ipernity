@@ -1,7 +1,15 @@
 """
-Python Ipernity Library
+Authentication and Authorization
+==================================
 
-Authentication
+The ``auth`` module defines the authentication handlers to be used with
+
+.. inheritance-diagram:: ipernity.auth
+    :parts: 1
+    :top-classes: ipernity.auth.AuthHandler
+
+The authentication handlers provide access to the ``auth.*`` API methods and
+
 """
 
 from abc import ABC, abstractmethod
@@ -19,7 +27,7 @@ class AuthHandler(ABC):
     Generic authentication handler
     
     Args:
-        api:    The :class:`IpernityAPI` object to which the handler belongs.
+        api:    The API object to which the handler belongs.
     """
     def __init__(
         self,
@@ -75,6 +83,9 @@ class AuthHandler(ABC):
         
         Return:
             The result of the API call.
+        
+        .. versionchanged: 0.1.3
+            Parameter ``store_token``
         """
         result = self.api.call('auth.getToken', frob = frob, **kwargs)
         if store_token:
@@ -111,14 +122,18 @@ class DesktopAuthHandler(AuthHandler):
     Desktop authentication handler.
     
     Args:
-        api:    The :class:`IpernityAPI` object to which the handler belongs.
+        api:    The API object to which the handler belongs.
     
     .. seealso::
         *   `Desktop Authentication <http://www.ipernity.com/help/api/auth.soft.html>`_
             at Ipernity
     """
     def getFrob(self) -> Mapping:
-        """Get frob for authentication"""
+        """
+        Get frob for authentication
+        
+        See 
+        """
         return self.api.call('auth.getFrob')
     
     def auth_url(self, perms: Mapping, frob: str) -> str:
@@ -154,6 +169,8 @@ class WebAuthHandler(AuthHandler):
     
     Args:
         api:    The :class:`IpernityAPI` object to which the handler belongs.
+    
+    .. versionadded:: 0.1.3
     
     .. seealso::
         *   `Web Authentication <http://www.ipernity.com/help/api/auth.web.html>`_

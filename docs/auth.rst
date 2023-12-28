@@ -1,0 +1,3 @@
+.. automodule:: ipernity.auth
+    :members:
+

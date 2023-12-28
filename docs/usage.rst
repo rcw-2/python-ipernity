@@ -76,6 +76,8 @@ API key.
     * `Ipernity Documentation <http://www.ipernity.com/help/api/auth.web.html>`_
 
 
+.. _calling-api-methods:
+
 Calling API methods
 --------------------
 
@@ -88,14 +90,21 @@ The difference is best shown in an example:
 
 .. code-block:: python
 
-    # These two calls are equivalent
-    user_info = iper.call('user.get', userid = 4711)
-    user_info = iper.user.info(userid = 4711)
+    ip = IpernityAPI(key, secret)
 
-In both cases, the response (here: ``user_info``) is the complete parsed JSON
-that the API call returns. See
-`Ipernity API output formats <http://www.ipernity.com/help/api/output.formats.html>`_
-for more information.
+    # These two calls are equivalent
+    user_info = ip.call('user.get', userid = 4711)
+    user_info = ip.user.get(userid = 4711)
+
+.. note::
+    *   All parameters should be passed as keyword arguments.
+    *   The response (here: ``user_info``) is the complete parsed JSON that the
+        API call returns. See
+        `Ipernity API output formats <http://www.ipernity.com/help/api/output.formats.html>`_
+        for more information.
+    *   The ``api_key`` parameter is specified in the constructor of
+        :class:`IpernityAPI` and should not be specified in API calls.
+    *   Requests are automatically signed by PyIpernity.
 
 
 Iterating over search results

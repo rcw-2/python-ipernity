@@ -1,8 +1,9 @@
 """
-Python Ipernity API
+Ipernity API Class
 =======================
 
-All 
+All funcionality in PyIpernity is available through the :class:`IpernityAPI`
+class. 
 """
 
 import json
@@ -34,15 +35,18 @@ class IpernityAPI:
     """
     Encapsulates Ipernity functionality.
     
+    See :ref:`calling-api-methods` for access to the individual API methods.
+    
     Args:
         api_key:    The API key obtained from Ipernity.
         api_secret: The secret belonging to the API key.
         token:      API token. Can be given as a string or as a mapping. When
                     given as a mapping, the actual token is extracted as
-                    ``token['token']``, and ``token['user']`` is stored as
-                    user information (see :attr:`~IpernityAPI.user_info`). The
-                    format should be like the user part of the return data of
-                    :iper:`auth.getToken`.
+                    ``token['token']``, ``token['user']`` is stored as user
+                    information (see :attr:`~IpernityAPI.user_info`), and
+                    ``token['permissions']`` is stored as :attr:`permissions`.
+                    The format of the mapping should be like the return data
+                    of :iper:`auth.getToken`.
         auth:       Authentication methop, can be ``desktop`` or ``web``. The
                     authentication handler is set accordingly.
         url:        API URL, should normally be left alone.
@@ -181,7 +185,7 @@ class IpernityAPI:
                                 request failed.
         
         .. versionchanged:: 0.2.0
-            An HTTP error raises APIRequestError instead of HTTPError.
+            An HTTP error raises ``APIRequestError`` instead of ``HTTPError``.
         """
         if method_name not in self.__methods__:
             raise UnknownMethod(method_name)

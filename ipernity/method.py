@@ -1,7 +1,6 @@
 """
-Python Ipernity API
-
-Method class
+Method Class
+==============
 """
 
 from typing import Any
@@ -9,7 +8,11 @@ from typing import Any
 
 class IpernityMethod:
     """
-    Encapsulates an Ipernity API method.
+    Helper class to enable the `APIobj.my.method(**)` syntax.
+    
+    Args:
+        api:    The corresponding API object.
+        name:   Name of the (partial) method.
     """
     
     def __init__(

@@ -18,6 +18,10 @@ class IpernityError(Exception):
     """
     Base class for Ipernity exceptions.
     
+    .. versionchanged:: 0.2.0
+        IpernityError is the the parent of several specialized exceptions. The
+        Ipernity-specific attributes were moved to :class:`APIRequestError`.
+    
     .. property:: message
         :type: str
         
@@ -28,6 +32,8 @@ class IpernityError(Exception):
 class UnknownMethod(IpernityError):
     """
     An unknown method was called.
+    
+    .. versionadded:: 0.2.0
     
     .. property:: method
         :type: str
@@ -45,6 +51,8 @@ class UnknownMethod(IpernityError):
 class APIRequestError(IpernityError):
     """
     An API request did not succeed.
+    
+    .. versionadded:: 0.2.0
     
     .. property:: status
         :type: str
@@ -100,6 +108,8 @@ class APIRequestError(IpernityError):
 class UploadError(IpernityError):
     """
     :iper:`upload.checkTickets` returned invalid ticket data during upload.
+    
+    .. versionadded:: 0.2.0
     
     .. property:: filename
         :type: str

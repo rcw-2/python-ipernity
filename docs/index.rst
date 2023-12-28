@@ -6,15 +6,25 @@ PyIpernity |Version|
 :Source:        https://github.com/rcw-2/python-ipernity
 
 
-Contents
+Usage
 ------------------------
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
     
     intro
     usage
+
+
+API Reference
+------------------
+
+.. toctree::
+    :maxdepth:  1
+
     api
+    auth
+    exceptions
 
 
 Indices and tables

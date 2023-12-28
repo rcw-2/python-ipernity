@@ -1,0 +1,3 @@
+.. automodule:: ipernity.exceptions
+    :members:
+

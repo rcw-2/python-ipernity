@@ -55,7 +55,7 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
     'sphinx.ext.extlinks',
-#    'sphinx.ext.inheritance_diagram',
+    'sphinx.ext.inheritance_diagram',
     'sphinx.ext.ifconfig',
 #    'apidoc_run',
 #    'apidoc_clean',
@@ -110,7 +110,7 @@ rst_epilog = """
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+# html_static_path = ['_static']
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -209,12 +209,12 @@ epub_exclude_files = ['search.html']
 
 #autodoc_member_order = 'groupwise'
 autodoc_default_options = {
-    'member-order':         'groupwise',
+    'member-order':         'bysource',
     'private-members':      False,
     'show-inheritance':     True,
     'undoc-members':        False,
 }
-autodoc_typehints = 'description'
+#autodoc_typehints = 'description'
 autodoc_typehints_format = 'short'
 #autodoc_class_signature = 'separated'
 
