@@ -12,7 +12,7 @@ import requests
 
 from .auth import AuthHandler, auth_methods
 from .method import IpernityMethod
-from .exceptions import IpernityError
+from .exceptions import UnknownMethod, QueryError, InvalidTicket
 
 
 api_arg = Union[str, float, int]
@@ -173,10 +173,13 @@ class IpernityAPI:
         
         Raises:
             HTTPError:      HTTP request failed.
-            IpernityError:  API returned an error.
+            UnknownMethod:  Tried to call a method not contained in
+                            :iper:`api.methods.getList`.
+            QueryError:     The API call returned 
+            API returned an error.
         """
         if method_name not in self.__methods__:
-            raise IpernityError(message = f'Unknown method {method_name}')
+            raise UnknownMethod(method_name)
         
         url = self._url + method_name + '/json'
         data = self.auth._sign_request(method_name, **kwargs)
@@ -206,11 +209,12 @@ class IpernityAPI:
         
         result = response.json()
         if result['api']['status'] != 'ok':
-            raise IpernityError(
+            raise QueryError(
                 result['api']['status'],
                 result['api']['code'],
-                result['api']['message']
-                + f', method: {method_name}, params: {data}'
+                result['api']['message'],
+                method_name,
+                data
             )
         
         log.debug(f'Returning {result}')
@@ -233,42 +237,18 @@ class IpernityAPI:
         while not done:
             status = self.upload.checkTickets(tickets = ticket)['tickets']['ticket'][0]
             if status['id'] != ticket:
-                raise IpernityError(
-                    message = 'Bad id {}, expecting {}'.format(status['id'], ticket)
+                raise InvalidTicket(
+                    ticket,
+                    f'API returned incorrect ticket {status["id"]}, expected {ticket}'
                 )
             if int(status.get('invalid', '0')):
-                raise IpernityError(message = f'Ticket {ticket} invalid')
+                raise InvalidTicket(ticket)
             done = int(status.get('done', '0'))
             if done:
                 id_ = status['doc_id']
             else:
                 sleep(int(status['eta']))
         log.debug('Got id=%s for filename=%s', id_, filename)
-        return id_
-    
-    
-    def _replace_file(self, filename: str, **kwargs: api_arg) -> str:
-        """
-        Simplified interface to uploading a file
-        
-        Does not work, so it is hidden.
-        """
-        ticket = self.upload.replace(file=filename, **kwargs)['ticket']
-        done = False
-        while not done:
-            status = self.upload.checkTickets(tickets = ticket)['tickets']['ticket'][0]
-            if status['id'] != ticket:
-                raise IpernityError(
-                    message = 'Bad id {}, expecting {}'.format(status['id'], ticket)
-                )
-            if int(status.get('invalid', '0')):
-                raise IpernityError(message = f'Ticket {ticket} invalid')
-            done = int(status.get('done', '0'))
-            if done:
-                id_ = status['doc_id']
-            else:
-                sleep(int(status['eta']))
-        
         return id_
     
     

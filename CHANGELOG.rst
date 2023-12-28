@@ -1,3 +1,8 @@
+v0.2.0 (2023-12-28)
+--------------------
+*   Exceptions for specific errors.
+*   Removed obsolete ``_replace_file`` method.
+
 v0.1.5 (2023-12-09)
 --------------------
 *   New attribute ``permissions`` and method ``has_permissions``.
