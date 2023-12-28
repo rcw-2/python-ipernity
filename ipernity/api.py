@@ -1,5 +1,8 @@
 """
 Python Ipernity API
+=======================
+
+All 
 """
 
 import json
@@ -12,7 +15,7 @@ import requests
 
 from .auth import AuthHandler, auth_methods
 from .method import IpernityMethod
-from .exceptions import UnknownMethod, QueryError, InvalidTicket
+from .exceptions import APIRequestError, UnknownMethod, UploadError
 
 
 api_arg = Union[str, float, int]
@@ -172,11 +175,13 @@ class IpernityAPI:
             kwargs:         API arguments
         
         Raises:
-            HTTPError:      HTTP request failed.
-            UnknownMethod:  Tried to call a method not contained in
-                            :iper:`api.methods.getList`.
-            QueryError:     The API call returned 
-            API returned an error.
+            UnknownMethod:      Tried to call a method not contained in
+                                :iper:`api.methods.getList`.
+            APIRequestError:    The API call returned an error, or the HTTP
+                                request failed.
+        
+        .. versionchanged:: 0.2.0
+            An HTTP error raises APIRequestError instead of HTTPError.
         """
         if method_name not in self.__methods__:
             raise UnknownMethod(method_name)
@@ -192,6 +197,7 @@ class IpernityAPI:
             ])      # Censor potentially sensitive data
         )
         
+        # Do request, use POST if required
         if int(self.__methods__[method_name]['authentication'].get('post', "0")):
             if 'file' in data:
                 with open(data['file'], 'rb') as f:
@@ -205,11 +211,22 @@ class IpernityAPI:
                 response = requests.post(url, data = data)
         else:
             response = requests.get(url, params = data)
-        response.raise_for_status()
         
+        # Check for HTTP errors
+        if not response.ok:
+            raise APIRequestError(
+                'httperror',
+                response.status_code,
+                f'API request returned with code {response.status_code}',
+                method_name,
+                data
+            )
+                
         result = response.json()
+        
+        # Check return data for errors
         if result['api']['status'] != 'ok':
-            raise QueryError(
+            raise APIRequestError(
                 result['api']['status'],
                 result['api']['code'],
                 result['api']['message'],
@@ -231,18 +248,25 @@ class IpernityAPI:
             
         Returns:
             The ``doc_id`` of the uploaded file.
+        
+        Raises:
+            UploadError:    The ticket gets invalid.
         """                                                 # noqa: E501
         ticket = self.upload.file(file=filename, **kwargs)['ticket']
         done = False
         while not done:
             status = self.upload.checkTickets(tickets = ticket)['tickets']['ticket'][0]
             if status['id'] != ticket:
-                raise InvalidTicket(
+                raise UploadError(
+                    filename,
                     ticket,
-                    f'API returned incorrect ticket {status["id"]}, expected {ticket}'
+                    f'{filename}: API returned incorrect ticket {status["id"]}, expected {ticket}'
                 )
             if int(status.get('invalid', '0')):
-                raise InvalidTicket(ticket)
+                raise UploadError(
+                    filename,
+                    ticket
+                )
             done = int(status.get('done', '0'))
             if done:
                 id_ = status['doc_id']
