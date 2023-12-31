@@ -48,6 +48,7 @@ def test_user(test_config, api, permissions):
     token_info = api.auth.checkToken(auth_token = api.token)['auth']
     
     for key in ['user_id', 'username']:
+        assert api.user_info[key] == test_config['user'][key]
         assert token_info['user'][key] == test_config['user'][key]
     
     for target, perm in permissions.items():
@@ -67,8 +68,18 @@ def test_quota(test_config, api):
 
 
 def test_permissions(test_data, permissions, api):
+    assert api.has_permissions(None)
     assert api.has_permissions(permissions)
     assert not api.has_permissions(test_data['non_permissions'])
+    
+    api.token = None
+    assert not api.has_permissions(permissions)
+    assert not api.has_permissions(None)
 
 
+def test_incomplete_token(test_config, test_data, permissions, api):
+    api.token = {'token': test_config['auth']['desktop']['token']}
+    assert api.token == test_config['auth']['desktop']['token']
+    assert api._user is None
+    assert api._perm is None
 
