@@ -12,7 +12,7 @@ import json
 import os
 from logging import getLogger
 from time import sleep
-from typing import Iterable, Mapping, Union, TYPE_CHECKING
+from typing import Any, Iterable, Mapping, Union, TYPE_CHECKING
 
 import requests
 
@@ -30,7 +30,7 @@ methodsfile = os.path.join(
     'methods.json'
 )
 with open(methodsfile, 'r') as mf:
-    _methods = json.load(mf)
+    _methods: Mapping[str, Mapping[str, Any]] = json.load(mf)
 
 
 class IpernityAPI:
@@ -203,30 +203,7 @@ class IpernityAPI:
             raise UnknownMethod(method_name)
         
         url = self._url + method_name + '/json'
-        data = self.auth._sign_request(method_name, **kwargs)
-        log.debug(
-            'Calling %s with %s',
-            url,
-            ', '.join([
-                f'{k}=XXX' if k in ['api_key', 'auth_token'] else f'{k}={v}'
-                for k, v in data.items()
-            ])      # Censor potentially sensitive data
-        )
-        
-        # Do request, use POST if required
-        if int(self.__methods__[method_name]['authentication'].get('post', "0")):
-            if 'file' in data:
-                with open(data['file'], 'rb') as f:
-                    del data['file']
-                    response = requests.post(
-                        url,
-                        data = data,
-                        files = {'file': f}
-                    )
-            else:
-                response = requests.post(url, data = data)
-        else:
-            response = requests.get(url, params = data)
+        response = self.auth.do_request(url, method_name, kwargs)
         
         # Check for HTTP errors
         if not response.ok:
@@ -235,7 +212,7 @@ class IpernityAPI:
                 response.status_code,
                 f'API request returned with code {response.status_code}',
                 method_name,
-                data
+                kwargs
             )
                 
         result = response.json()
@@ -247,7 +224,7 @@ class IpernityAPI:
                 result['api']['code'],
                 result['api']['message'],
                 method_name,
-                data
+                kwargs
             )
         
         log.debug(f'Returning {result}')

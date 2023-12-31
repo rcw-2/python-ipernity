@@ -20,6 +20,8 @@ from logging import getLogger
 from urllib.parse import urlencode
 from typing import Mapping, TYPE_CHECKING
 
+import requests
+
 if TYPE_CHECKING:
     from .api import IpernityAPI, api_arg
 
@@ -48,29 +50,6 @@ class AuthHandler(ABC):
     def api(self) -> IpernityAPI:
         """The corresponding :class:`IpernityAPI` object"""
         return self._api
-    
-    def _sign_request(self, method_name: str | None = None, **kwargs: api_arg) -> dict:
-        """Signs a request."""
-        log.debug(f'Generating signature for {method_name} {kwargs}')
-        kwargs['api_key'] = self._api._api_key
-        if self.api.token:
-            kwargs['auth_token'] = self.api.token
-        
-        sig_str = ''.join([
-            f'{k}{kwargs[k]}'
-            for k in sorted(kwargs.keys())
-            if k != 'file'
-        ])
-        
-        if method_name:
-            sig_str += method_name
-        
-        sig_str += self.api._api_secret
-        log.debug(f'  signature string is {sig_str}')
-        kwargs.update({
-            'api_sig':  md5(sig_str.encode('utf-8')).hexdigest(),
-        })
-        return kwargs
     
     def getToken(self, frob: str, store_token: bool = True, **kwargs:api_arg) -> dict:
         """
@@ -114,6 +93,64 @@ class AuthHandler(ABC):
                     authorization URL. The keys can be ``doc``, ``blog`` etc.
         """
         pass
+    
+    def do_request(
+        self,
+        url: str,
+        method_name: str,
+        kwargs: Mapping[str, api_arg]
+    ) -> requests.Response:
+        """
+        Signs and runs a request.
+        """
+        data = self._sign_request(method_name, **kwargs)
+        log.debug(
+            'Calling %s with %s',
+            url,
+            ', '.join([
+                # Censor potentially sensitive data
+                f'{k}=XXX' if k in ['api_key', 'auth_token'] else f'{k}={v}'
+                for k, v in data.items()
+            ])
+        )
+        
+        # Do request, use POST if required
+        if int(self.api.__methods__[method_name]['authentication'].get('post', "0")):
+            if 'file' in data:
+                with open(data['file'], 'rb') as f:
+                    del data['file']
+                    return requests.post(
+                        url,
+                        data = data,
+                        files = {'file': f}
+                    )
+            
+            return requests.post(url, data = data)
+        
+        return requests.get(url, params = data)
+    
+    def _sign_request(self, method_name: str | None = None, **kwargs: api_arg) -> dict:
+        """Signs a request."""
+        log.debug(f'Generating signature for {method_name} {kwargs}')
+        kwargs['api_key'] = self.api._api_key
+        if self.api.token:
+            kwargs['auth_token'] = self.api.token
+        
+        sig_str = ''.join([
+            f'{k}{kwargs[k]}'
+            for k in sorted(kwargs.keys())
+            if k != 'file'
+        ])
+        
+        if method_name:
+            sig_str += method_name
+        
+        sig_str += self.api._api_secret
+        log.debug(f'  signature string is {sig_str}')
+        kwargs.update({
+            'api_sig':  md5(sig_str.encode('utf-8')).hexdigest(),
+        })
+        return kwargs
     
     def _build_url(self, url: str, **kwargs: api_arg) -> str:
         url = f'{url}?' + urlencode(kwargs)
@@ -183,7 +220,7 @@ class WebAuthHandler(AuthHandler):
     def __init__(self, api: IpernityAPI):
         super().__init__(api)
     
-    def auth_url(self, perms: Mapping) -> str:
+    def auth_url(self, perms: Mapping[str, str]) -> str:
         """
         Authorization URL.
         
