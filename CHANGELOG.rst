@@ -1,3 +1,7 @@
+v0.2.1 (?)
+--------------------
+*   Allow custom authentication handlers.
+
 v0.2.0 (2023-12-28)
 --------------------
 *   Exceptions for specific errors.

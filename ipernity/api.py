@@ -49,8 +49,10 @@ class IpernityAPI:
                     ``token['permissions']`` is stored as :attr:`permissions`.
                     The format of the mapping should be like the return data
                     of :iper:`auth.getToken`.
-        auth:       Authentication methop, can be ``desktop`` or ``web``. The
-                    authentication handler is set accordingly.
+        auth:       Authentication methop, can be ``desktop``, ``web`` or a
+                    subclass of :class:`~ipernity.auth.AuthHandler` (not an
+                    instance thereof!). The authentication handler is set
+                    accordingly.
         url:        API URL, should normally be left alone.
     
     .. seealso::
@@ -65,7 +67,7 @@ class IpernityAPI:
         api_key: str,
         api_secret: str,
         token: str | Mapping | None = None,
-        auth: str = 'desktop',
+        auth: str | AuthHandler = 'desktop',
         url: str = 'http://api.ipernity.com/api/',
     ):
         log.debug('Creating API object with key %s', api_key)
@@ -73,7 +75,9 @@ class IpernityAPI:
         self._api_secret = api_secret
         self.token = token
         self._url = url
-        if auth in auth_methods:
+        if isinstance(auth, type) and issubclass(auth, AuthHandler):
+            self._auth = auth(self)
+        elif auth in auth_methods:
             self._auth = auth_methods[auth](self)
         else:
             raise ValueError(f'Authentication method {auth} is not supported')
@@ -149,7 +153,9 @@ class IpernityAPI:
     
     def has_permissions(self, permissions: Mapping[str, str] | None) -> bool:
         """
-        Checks if the api has the given permissions.
+        Checks if the API has at least the given permissions.
+        
+        Returns False if the token is ``None``.
         
         .. versionadded:: 0.1.5
         """
