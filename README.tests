@@ -5,22 +5,22 @@ WARNING:    The tests will DELETE EVERYTHING in the Ipernity account used.
             DO NOT use your regular Ipernity account for running the tests.
 
 Since the tests need access to Ipernity, some preparation is necessary to run
-them. You need an SEPARATE Ipernity account to run the tests, too. Testing
+them. You need a SEPARATE Ipernity account to run the tests, too. Testing
 should be done in a virtual environment. To prepare, follow this procedure:
 
 1. Install the test requisites:
 
     (.venv) $ pip install -e .[test]
    
-2. Create another Ipernity application on https://www.ipernity.com/apps/key
+2. Create an Ipernity application on https://www.ipernity.com/apps/key
    Choose the "Software" authentication method.
 
 3. Create another Ipernity application on https://www.ipernity.com/apps/key
    Choose the "Web" authentication method and add something beginning with
-   "http://127.0.0.1" as the callback URL.
+   "http://127.0.0.1" (the tests will ignore the rest) as the callback URL.
 
-4. Use your browser's developer tools to get your ipernity cookies. You need
-   the "s" and "ua" cookies.
+4. Login to Ipernity with "Remember me" activated. Use your browser's developer
+   tools to get your ipernity cookies. You need the "s" and "ua" cookies.
 
 5. Create a file tests/.test-config.yaml with the following contents:
 
