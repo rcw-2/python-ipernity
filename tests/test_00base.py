@@ -67,6 +67,16 @@ def test_quota(test_config, api):
     assert quota['user_id'] == test_config['user']['user_id']
 
 
+def test_new_key(api):
+    api.api_key = 'bogus_data'
+    assert api.token is None
+
+
+def test_new_secret(api):
+    api.api_secret = 'bogus_data'
+    assert api.token is None
+
+
 def test_permissions(test_data, permissions, api):
     assert api.has_permissions(None)
     assert api.has_permissions(permissions)

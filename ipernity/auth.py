@@ -98,12 +98,20 @@ class AuthHandler(ABC):
         self,
         url: str,
         method_name: str,
-        kwargs: Mapping[str, api_arg]
+        method_args: Mapping[str, api_arg]
     ) -> requests.Response:
         """
         Signs and runs a request.
+        
+        This is part of ``AuthHandler`` to make an OAuth handler possible, as
+        OAuth uses a different format for signing and authentication info.
+        
+        Args:
+            url:            Request URL.
+            method_name:    The method to be called (needed for signing).
+            method_args:    Arguments of the method call.
         """
-        data = self._sign_request(method_name, **kwargs)
+        data = self._sign_request(method_name, **method_args)
         log.debug(
             'Calling %s with %s',
             url,
@@ -132,7 +140,7 @@ class AuthHandler(ABC):
     def _sign_request(self, method_name: str | None = None, **kwargs: api_arg) -> dict:
         """Signs a request."""
         log.debug(f'Generating signature for {method_name} {kwargs}')
-        kwargs['api_key'] = self.api._api_key
+        kwargs['api_key'] = self.api.api_key
         if self.api.token:
             kwargs['auth_token'] = self.api.token
         
@@ -145,8 +153,8 @@ class AuthHandler(ABC):
         if method_name:
             sig_str += method_name
         
-        sig_str += self.api._api_secret
-        log.debug(f'  signature string is {sig_str}')
+        sig_str += self.api.api_secret
+        # potentially dangerous log.debug(f'  signature string is {sig_str}')
         kwargs.update({
             'api_sig':  md5(sig_str.encode('utf-8')).hexdigest(),
         })
