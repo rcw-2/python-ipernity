@@ -129,3 +129,55 @@ distributed as multiple "pages". These generators are:
     Generic method, called by the other ``walk_*`` methods.
 
 
+Interactive mode
+-----------------
+
+.. versionadded:: 0.2.1
+
+PyIpernity provides an interactive mode for testing. To get information about
+the command line options, type
+
+.. code-block:: shell-session
+
+    $ python -m ipernity -h
+
+at the shell prompt. If application key and secret are specified in environment
+variables or a configuration file, you can just start interactive mode with
+
+.. code-block:: shell-session
+
+    $ python -m ipernity
+
+
+Specifying key, secret and token
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There are three ways to specify the authentication information
+(in order of precedence):
+
+#. Command line arguments:
+    
+    .. code-block:: shell-session
+        
+        $ python -m ipernity -k <api-key> -s <api-secret> -t <api-token>
+
+#. Configuration file (default :file:`$HOME/.ipernity.ini`):
+    
+    .. code-block:: ini
+
+        [ipernity]
+        api key = <api-key>
+        api secret = <api-secret>
+        api token = <api-token>
+
+#. Environment variables:
+    
+    .. code-block:: shell-session
+
+        IPERNITY_API_KEY=<api-key>
+        IPERNITY_API_SECRET=<api-secret>
+        IPERNITY_API_TOKEN=<api-token>
+
+Specifying the token is optional. Some API methods can be called without a
+token, and you can get a token with the ``login`` command.
+

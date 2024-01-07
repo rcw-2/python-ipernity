@@ -51,7 +51,7 @@ class AuthHandler(ABC):
         """The corresponding :class:`IpernityAPI` object"""
         return self._api
     
-    def getToken(self, frob: str, store_token: bool = True, **kwargs:api_arg) -> dict:
+    def getToken(self, frob: str, store_token: bool = True, **kwargs: api_arg) -> dict:
         """
         Runs the :iper:`auth.getToken` API method.
         
