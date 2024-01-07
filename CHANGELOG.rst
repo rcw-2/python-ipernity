@@ -1,6 +1,8 @@
-v0.2.1 (?)
+v0.3.0 (2024-01-07)
 --------------------
 *   Allow custom authentication handlers.
+*   Interactive mode (``python -m ipernity``).
+*   New attributes ``api_key`` and ``api_secret``.
 
 v0.2.0 (2023-12-28)
 --------------------

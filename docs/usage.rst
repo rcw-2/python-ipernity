@@ -132,7 +132,7 @@ distributed as multiple "pages". These generators are:
 Interactive mode
 -----------------
 
-.. versionadded:: 0.2.1
+.. versionadded:: 0.3.0
 
 PyIpernity provides an interactive mode for testing. To get information about
 the command line options, type
