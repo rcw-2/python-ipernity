@@ -1,3 +1,5 @@
+|PyPi Package| |Documentation Status| |Test Status|
+
 PyIpernity README
 ===================
 
@@ -22,10 +24,19 @@ Installation
 
 Via PyPi:
 
-.. code-block:: bash
+.. code-block:: console
     
-    pip install PyIpernity
+    $ pip install PyIpernity
 
 The source code is available at `<http://github.com/rcw-2/python-ipernity>`_.
 
+
+.. |PyPi Package| image:: https://badge.fury.io/py/PyIpernity.svg
+    :target: https://badge.fury.io/py/PyIpernity
+
+.. |Documentation Status| image:: https://readthedocs.org/projects/pyipernity/badge/?version=latest
+    :target: http://pyipernity.readthedocs.io/?badge=latest
+
+.. |Test Status| image:: https://github.com/rcw-2/python-ipernity/actions/workflows/test.yml/badge.svg
+    :target: https://github.com/rcw-2/python-ipernity/actions/workflows/test.yml
 
