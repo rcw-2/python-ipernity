@@ -1,3 +1,8 @@
+v0.3.1 (2024-05-12)
+--------------------
+* New argument ``auth_url_base``
+* URLs default to HTTPS
+
 v0.3.0 (2024-01-07)
 --------------------
 *   Allow custom authentication handlers.

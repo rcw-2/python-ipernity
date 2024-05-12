@@ -60,8 +60,10 @@ class IpernityAPI:
     .. seealso::
         * `Ipernity API methods <http://www.ipernity.com/help/api>`_
     
-    .. versionadded:: 0.3.1
-        New argument ``auth_url_base``
+    .. versionchanged:: 0.3.1
+        * New argument ``auth_url_base``
+        * URLs default to HTTPS
+    
     .. versionchanged:: 0.3.0
         ``auth`` can be a subclass of :class:`~ipernity.auth.AuthHandler`.
     """
@@ -75,8 +77,8 @@ class IpernityAPI:
         api_secret: str,
         token: str | Mapping | None = None,
         auth: str | AuthHandler = 'desktop',
-        url: str = 'http://api.ipernity.com/api/',
-        auth_url_base: str = 'http://www.ipernity.com/apps/authorize'
+        url: str = 'https://api.ipernity.com/api/',
+        auth_url_base: str = 'https://www.ipernity.com/apps/authorize'
     ):
         log.debug('Creating API object with key %s', api_key)
         self._api_key = api_key
