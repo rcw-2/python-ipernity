@@ -31,7 +31,7 @@ should be done in a virtual environment. To prepare, follow this procedure:
       web:
         api_key: "<your second application key>"
         api_secret: "<your second application secret>"
-
+    
     user:
       user_id: "<your user id on Ipernity>"
       username: "<your display name on Ipernity>"
@@ -41,7 +41,10 @@ should be done in a virtual environment. To prepare, follow this procedure:
             cookie_consent: ok
             s: "<your s cookie>"
             ua: "<your ua cookie>"
-    
+   
+   Optionally, you can add a key ``api_args`` containing additional arguments
+   for the API constructor.
+   
    If you cloned the repository on Github, you can pass these parameters to
    the "test" workflow as secrets.
 

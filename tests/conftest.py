@@ -60,7 +60,8 @@ def api(test_config: Dict, permissions: Dict, tested_methods: TestedMethods):
     config = test_config['auth']['desktop']
     api = TestAPI(
         config,
-        tested_methods
+        tested_methods,
+        **test_config.get('api_args', {})
     )
     if _auth_from_config(config, api):
         return api
@@ -78,7 +79,8 @@ def webapi(test_config: Dict, permissions: Dict, tested_methods: TestedMethods):
     api = TestAPI(
         config,
         tested_methods,
-        auth = 'web'
+        auth = 'web',
+        **test_config.get('api_args', {})
     )
     if _auth_from_config(config, api):
         return api
