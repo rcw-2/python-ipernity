@@ -207,7 +207,7 @@ class DesktopAuthHandler(AuthHandler):
             else:
                 params['perm_' + name] = value
         return self._build_url(
-            'http://www.ipernity.com/apps/authorize',
+            self.api._auth_url_base,
             **self._sign_request(**params)
         )
 
@@ -248,7 +248,7 @@ class WebAuthHandler(AuthHandler):
             else:
                 params['perm_' + name] = value
         return self._build_url(
-            'http://www.ipernity.com/apps/authorize',
+            self.api._auth_url_base,
             **self._sign_request(**params)
         )
 

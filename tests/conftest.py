@@ -194,13 +194,14 @@ class TestedMethods:
 
 
 class TestAPI(IpernityAPI):
-    def __init__(self, config, tested, auth = 'desktop'):
+    def __init__(self, config, tested, auth = 'desktop', **kwargs):
         self._tested_methods = tested
         super().__init__(
             config.get('api_key'),
             config.get('api_secret'),
             config.get('token'),
-            auth = auth
+            auth = auth,
+            **kwargs
         )
     
     def call(self, method_name, **kwargs):

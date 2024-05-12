@@ -54,10 +54,14 @@ class IpernityAPI:
                     instance thereof!). The authentication handler is set
                     accordingly.
         url:        API URL, should normally be left alone.
+        auth_url_base:  Base for Authentication URLs, should normally be left
+                        alone.
     
     .. seealso::
         * `Ipernity API methods <http://www.ipernity.com/help/api>`_
-        
+    
+    .. versionadded:: 0.3.1
+        New argument ``auth_url_base``
     .. versionchanged:: 0.3.0
         ``auth`` can be a subclass of :class:`~ipernity.auth.AuthHandler`.
     """
@@ -72,12 +76,14 @@ class IpernityAPI:
         token: str | Mapping | None = None,
         auth: str | AuthHandler = 'desktop',
         url: str = 'http://api.ipernity.com/api/',
+        auth_url_base: str = 'http://www.ipernity.com/apps/authorize'
     ):
         log.debug('Creating API object with key %s', api_key)
         self._api_key = api_key
         self._api_secret = api_secret
         self.token = token
         self._url = url
+        self._auth_url_base = auth_url_base
         if isinstance(auth, type) and issubclass(auth, AuthHandler):
             self._auth = auth(self)
         elif auth in auth_methods:
